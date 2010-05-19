@@ -1,13 +1,11 @@
 // Switchboard: Handles handing off requests
 var
-  sys         = require('sys'),
   assert      = require('assert'),
   url         = require('url');
 
 function notFound(req, res) {
-  res.writeHeader(404, {"Content-Type": "text/plain; charset=utf-8"});
-  res.write("Not found\n");
-  res.close();
+  res.writeHead(404, {"Content-Type": "text/plain; charset=utf-8"});
+  res.end("Not found\n");
   return false;
 }
 
@@ -142,13 +140,9 @@ function makeDispatchQueryOverloader() {
   };
 }
 
-process.mixin(exports,
-  {
-    notFound: notFound,
-    dispatch: dispatch,
-    dispatchQueryOverload: dispatchQueryOverload,
-    makeDispatchQueryOverloader: makeDispatchQueryOverloader,
-    dispatchOnePath: dispatchOnePath,
-    makeOnePathDispatcher: makeOnePathDispatcher
-  }
-);
+exports.notFound = notFound;
+exports.dispatch = dispatch;
+exports.dispatchQueryOverload = dispatchQueryOverload;
+exports.makeDispatchQueryOverloader = makeDispatchQueryOverloader;
+exports.dispatchOnePath = dispatchOnePath;
+exports.makeOnePathDispatcher = makeOnePathDispatcher;

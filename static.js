@@ -171,13 +171,12 @@ function serveFile(webroot, urlPath, req, res) {
       fs.readFile(filePath,
         function(err, contents) {
           if (err) {
-            sys.puts("The file broke! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
+            sys.log("The file broke! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
             var errtext = "Couldn't open file";
-            res.writeHeader(500, {"Content-Type": "text/plain; charset=utf-8",
+            res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
                                                   // todo: change to text/json
                                   "Content-Length": errtext.length});
-            res.write(errtext);
-            res.close();
+            res.end(errtext);
             return false;
           }
           // Play nice by telling what kinds of files these are.
@@ -186,14 +185,13 @@ function serveFile(webroot, urlPath, req, res) {
           if (charset) {
             contentType += '; charset=' + charset;
           }
-          res.writeHeader(200, 
+          res.writeHead(200, 
             {
               "Content-Type": contentType,
               "Content-Length": contents.length
             }
           );
-          res.write(contents);
-          res.close();
+          res.end(contents);
         }
       );
     }
@@ -206,9 +204,5 @@ function makeFileServer(webroot) {
   };
 }
 
-process.mixin(exports,
-  {
-    serveFile: serveFile,
-    makeFileServer: makeFileServer
-  }
-);
+exports.serveFile = serveFile;
+exports.makeFileServer = makeFileServer;

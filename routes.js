@@ -7,7 +7,12 @@ var
   routes        = {};
 
 function addRoutes(newRoutes) {
-  return process.mixin(routes, newRoutes);
+  for (var route in newRoutes) {
+      if (newRoutes.hasOwnProperty(route)) {
+          routes[route] = newRoutes[route];
+      }
+  }
+  return routes;
 }
 
 
@@ -18,20 +23,15 @@ function dispatch(req, res) {
       url.parse(req.url).pathname,
       routes);
   } catch(err) {
-    sys.puts("Exception! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
+    sys.log("Exception! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
     var errtext = "Internal server error.";
-    res.writeHeader(500, {"Content-Type": "text/plain; charset=utf-8",
+    res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
                                           // todo: change to text/json
                           "Content-Length": errtext.length});
-    res.write(errtext);
-    res.close();
+    res.end(errtext);
   }
 }
 
-process.mixin(exports,
-  {
-    addRoutes: addRoutes,
-    routes: routes,
-    dispatch: dispatch
-  }
-);
+exports.addRoutes = addRoutes;
+exports.routes = routes;
+exports.dispatch = dispatch;
