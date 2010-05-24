@@ -14,7 +14,9 @@ function set(req, res, title, questions) {
 function renderStatus(req, res) {
   if (activePoll) {
     sys.log(sys.inspect(activePoll));
-    return renderJson(req, res, activePoll.toJson());
+    var result = activePoll.toJson();
+    result.my_vote = activePoll.myVote(req.connection.remoteAddress) || false;
+    return renderJson(req, res, result);
   }
   return renderJson(req, res, {});
 }

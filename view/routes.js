@@ -26,7 +26,6 @@ function dispatch(req, res) {
     sys.log("Exception! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
     var errtext = "Internal server error.";
     res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
-                                          // todo: change to text/json
                           "Content-Length": errtext.length});
     res.end(errtext);
   }

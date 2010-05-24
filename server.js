@@ -46,6 +46,8 @@ routes.addRoutes(
     'poll': switchboard.makeDispatchQueryOverloader(
       ['vote'],
       voting.vote,
+      ['close'],
+      voting.close,
       [],
       active.renderStatus
     ),
