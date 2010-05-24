@@ -1,11 +1,14 @@
 require.paths.push("./model");
 require.paths.push("./view");
-require.paths.push("./controller");
+require.paths.push("./control");
 var
   http        = require('http'),
   sys         = require('sys'),
   routes      = require('routes'),
   staticFiles = require('static'),
+  switchboard = require("switchboard"),
+  active      = require('active_poll'),
+  voting      = require('voting'),
   PORT        = 8080,
   count=0;
 
@@ -39,11 +42,18 @@ routes.addRoutes(
     '': staticFiles.makeFileServer("static/index.htm"),
     'css': staticFiles.makeFileServer("static/css"),
     'js': staticFiles.makeFileServer("static/js"),
-    'foo': function(req, res) {
-      res.writeHead(200);
-      res.end(""+(count+1));
-      count = count + 1;
-    }
+
+    'poll': switchboard.makeDispatchQueryOverloader(
+      ['vote'],
+      voting.vote,
+      [],
+      active.renderStatus
+    ),
+
+    'set_poll': switchboard.makeDispatchQueryOverloader(
+      ['title', 'questions'],
+      active.set
+    )
 
     //'matches': matchViews.makeMatchListViews(matches)
 
