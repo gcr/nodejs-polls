@@ -1,8 +1,11 @@
+require.paths.push("./model");
+require.paths.push("./view");
+require.paths.push("./controller");
 var
   http        = require('http'),
   sys         = require('sys'),
-  routes      = require('./routes'),
-  staticFiles = require('./static'),
+  routes      = require('routes'),
+  staticFiles = require('static'),
   PORT        = 8080,
   count=0;
 
