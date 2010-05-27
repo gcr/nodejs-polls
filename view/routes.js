@@ -3,6 +3,7 @@ var
   url           = require('url'),
   sys           = require('sys'),
   switchboard   = require('./switchboard'),
+  renderJson    = require('view_helpers').renderJson,
   staticFiles   = require('./static'),
   routes        = {};
 
@@ -25,9 +26,10 @@ function dispatch(req, res) {
   } catch(err) {
     sys.log("Exception! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
     var errtext = "Internal server error.";
-    res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
-                          "Content-Length": errtext.length});
-    res.end(errtext);
+    renderJson(req, res, {'error': err.message}, 500);
+    //res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
+    //                      "Content-Length": errtext.length});
+    //res.end(errtext);
   }
 }
 

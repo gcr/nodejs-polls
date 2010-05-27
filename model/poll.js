@@ -18,9 +18,12 @@ sys.inherits(Poll, events.EventEmitter);
 
 Poll.prototype.vote = function(key, choice) {
   assert.ok(this.questions.indexOf(choice) != -1, "Voting for an option that doesn't exist!");
-  assert.ok(this.open);
+  if (!this.open) {
+    return false;
+  }
   this.votes[key] = choice;
   this.emit("vote", this, key, choice);
+  return true;
 };
 
 Poll.prototype.voted = function(key) {
@@ -38,6 +41,7 @@ Poll.prototype.toJson = function() {
 Poll.prototype.close = function() {
   this.open = false;
   this.emit("closed", this);
+  return true;
 };
 
 Poll.prototype.tally = function() {

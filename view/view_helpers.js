@@ -4,7 +4,7 @@ var
   sys         = require('sys');
 
 // Auxilary functions
-function renderJson(req, res, obj) {
+function renderJson(req, res, obj, status) {
   var json;
   var query = url.parse(req.url, true).query || {};
   if (typeof obj == 'undefined') {
@@ -17,7 +17,8 @@ function renderJson(req, res, obj) {
   } else {
     json = json + "\n";
   }
-  res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8",
+  sys.puts(json);
+  res.writeHead(status||200, {"Content-Type": "text/plain; charset=utf-8",
                                         // todo: change to text/json
                         "Content-Length": json.length});
   res.end(json);

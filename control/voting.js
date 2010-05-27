@@ -4,14 +4,23 @@ var activePoll = require('active_poll'),
 
 function close(req, res) {
   // Close the current poll
-  activePoll.get().close();
-  return renderJson(req, res, "success");
+  var poll = activePoll.get();
+  if (poll) {
+    return renderJson(req, res, poll.close()?"success":"fail");
+  } else {
+    return renderJson(req, res, "no poll");
+  }
 }
 
 function vote(req, res, choice) {
   // Vote in a poll from an IP
-  activePoll.get().vote(req.connection.remoteAddress, choice);
-  return renderJson(req, res, "success");
+  var poll = activePoll.get();
+  if (poll) {
+    return renderJson(req, res, poll.vote(req.connection.remoteAddress, choice)?"success":"fail");
+  } else {
+    return renderJson(req, res, "no poll");
+  }
 }
 
 exports.vote = vote;
+exports.close = close;
