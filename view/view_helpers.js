@@ -53,8 +53,23 @@ function booleanize(m) {
   }
 }
 
+function curry(opt, func) {
+  return function() {
+    return func.apply(this, [opt]+arguments);
+  };
+}
+
+function redirect(req, res, url) {
+  var body = '<!DOCTYPE HTML><html lang="en"><head><meta charset="UTF-8"><title>Redirect</title></head><body><a href="'+url+'">'+url+'</a></body></html>';
+  res.writeHead(302, {"Location": url,
+                      "Content-Length": body.length});
+  res.end(body);
+}
+
 exports.renderJson       = renderJson;
 exports.makeJsonRenderer = makeJsonRenderer;
 exports.buildUuid        = buildUuid;
 exports.randChoice       = randChoice;
 exports.booleanize       = booleanize;
+exports.curry            = curry;
+exports.redirect         = redirect;
