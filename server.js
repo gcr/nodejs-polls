@@ -1,14 +1,11 @@
-require.paths.push("./model");
-require.paths.push("./view");
-require.paths.push("./control");
 var
   http        = require('http'),
   sys         = require('sys'),
-  routes      = require('routes'),
-  staticFiles = require('static'),
-  switchboard = require("switchboard"),
-  active      = require('active_poll'),
-  voting      = require('voting'),
+  routes      = require('./view/routes'),
+  staticFiles = require('./view/static'),
+  switchboard = require("./view/switchboard"),
+  active      = require('./control/active_poll'),
+  voting      = require('./control/voting'),
   PORT        = 8080,
   count=0;
 

@@ -1,6 +1,6 @@
 // Handles voting from IP addresses
-var activePoll = require('active_poll'),
-    renderJson = require('view_helpers').renderJson;
+var activePoll = require('./active_poll'),
+    renderJson = require('./../view/view_helpers').renderJson;
 
 function close(req, res) {
   // Close the current poll

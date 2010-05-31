@@ -1,8 +1,8 @@
 // Manages the active poll
 
 var sys = require('sys'),
-    poll = require('poll'),
-    renderJson = require('view_helpers').renderJson,
+    poll = require('./../model/poll'),
+    renderJson = require('./../view/view_helpers').renderJson,
     activePoll = null;
 
 function set(req, res, title, questions) {

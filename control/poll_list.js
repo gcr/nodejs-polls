@@ -1,6 +1,6 @@
 // Controller for the poll list
-var renderJson = require('view_helpers').renderJson,
-    redirect = require('view_helpers').redirect;
+var renderJson = require('./../view/view_helpers').renderJson,
+    redirect = require('./../view/view_helpers').redirect;
 
 // Please curry me!
 function get(plist, req, res, choice) {

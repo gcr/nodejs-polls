@@ -3,7 +3,7 @@ var
   url           = require('url'),
   sys           = require('sys'),
   switchboard   = require('./switchboard'),
-  renderJson    = require('view_helpers').renderJson,
+  renderJson    = require('./view_helpers').renderJson,
   staticFiles   = require('./static'),
   routes        = {};
 

@@ -1,5 +1,5 @@
 var 
-  switchboard = require('switchboard'),
+  switchboard = require('./switchboard'),
   url         = require('url'),
   sys         = require('sys');
 
