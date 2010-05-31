@@ -3,11 +3,16 @@ var
   sys         = require('sys'),
   routes      = require('./view/routes'),
   staticFiles = require('./view/static'),
+  curry       = require('./view/view_helpers').curry,
   switchboard = require("./view/switchboard"),
   active      = require('./control/active_poll'),
   voting      = require('./control/voting'),
+  pl          = require('./model/poll_list'),
+  pollListCtl = require('./control/poll_list'),
+
   PORT        = 8080,
-  count=0;
+  count=0,
+  plist       = new pl.PollList('poll_list.json');
 
 // Some notes. We'll need some sort of very simple RPC system.
 // Server:
@@ -52,6 +57,17 @@ routes.addRoutes(
     'set_poll': switchboard.makeDispatchQueryOverloader(
       ['title', 'questions'],
       active.set
+    ),
+
+    'list': switchboard.makeDispatchQueryOverloader(
+      ['get'],
+      curry(pollListCtl.get, plist),
+      ['del'],
+      curry(pollListCtl.del, plist),
+      ['add', 'title', 'questions'],
+      curry(pollListCtl.add, plist),
+      [],
+      curry(pollListCtl.get, plist)
     )
 
     //'matches': matchViews.makeMatchListViews(matches)

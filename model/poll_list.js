@@ -9,7 +9,7 @@ function PollList(filename) {
   this.filename = filename;
   //this.polls = [];
   var buffer=fs.readFileSync(filename);
-  this.polls = JSON.parse(buffer);
+  this.polls = JSON.parse(buffer.toString()).polls;
 }
 
 PollList.prototype.get = function(n) {
@@ -39,7 +39,7 @@ PollList.prototype.add = function(title, questions) {
 };
 
 PollList.prototype.commit = function() {
-  fs.writeFileSync(this.filename, JSON.stringify(this.polls));
+  fs.writeFileSync(this.filename, JSON.stringify({polls:this.polls}));
 };
 
 exports.PollList = PollList;

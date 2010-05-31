@@ -1,6 +1,7 @@
 // Controller for the poll list
 var renderJson = require('./../view/view_helpers').renderJson,
-    redirect = require('./../view/view_helpers').redirect;
+    redirect = require('./../view/view_helpers').redirect,
+    sys = require('sys');
 
 // Please curry me!
 function get(plist, req, res, choice) {
@@ -15,7 +16,7 @@ function del(plist, req, res, n) {
 }
 
 // Please curry me!
-function add(plist, req, res, title, questions) {
+function add(plist, req, res, ignored, title, questions) {
   if (plist && typeof title == 'string' && questions instanceof Array) {
     renderJson(req, res, plist.add(title, questions)?"success":"fail");
     plist.commit();
@@ -25,3 +26,6 @@ function add(plist, req, res, title, questions) {
   }
 }
 
+exports.get = get;
+exports.add = add;
+exports.del = del;
