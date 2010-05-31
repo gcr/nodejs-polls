@@ -1,9 +1,9 @@
 // Manages the active poll
 
 var sys = require('sys'),
-    activePoll = null,
     poll = require('poll'),
-    renderJson = require('view_helpers').renderJson;
+    renderJson = require('view_helpers').renderJson,
+    activePoll = null;
 
 function set(req, res, title, questions) {
   activePoll = new poll.Poll(title, questions);
@@ -18,7 +18,7 @@ function renderStatus(req, res) {
     result.my_vote = activePoll.myVote(req.connection.remoteAddress) || false;
     return renderJson(req, res, result);
   }
-  return renderJson(req, res, {});
+  return renderJson(req, res, "no poll");
 }
 
 function get() {
