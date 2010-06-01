@@ -12,6 +12,7 @@ function Poll(title, questions) {
   this.title = title;
   this.open = true;
   this.questions = questions;
+  this.uid = Math.floor(Math.random()*32767);
   this.votes = {};
 }
 sys.inherits(Poll, events.EventEmitter);
@@ -34,6 +35,7 @@ Poll.prototype.toJson = function() {
   return {
     'title': this.title,
     'open': this.open,
+    'uid': this.uid,
     'votes': this.tally()
   };
 };
