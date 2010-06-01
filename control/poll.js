@@ -14,7 +14,6 @@ function set(req, res, title, questions) {
 
 function renderStatus(poll, req, res) {
   if (poll) {
-    sys.log(sys.inspect(poll));
     var result = poll.toJson();
     result.my_vote = poll.myVote(req.connection.remoteAddress) || false;
     return renderJson(req, res, result);
