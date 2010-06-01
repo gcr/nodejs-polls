@@ -42,6 +42,7 @@ routes.addRoutes(
     '': staticFiles.makeFileServer("static/index.htm"),
     'css': staticFiles.makeFileServer("static/css"),
     'js': staticFiles.makeFileServer("static/js"),
+    'img': staticFiles.makeFileServer("static/img"),
 
     'poll': switchboard.makeDispatchQueryOverloader(
       ['vote'],
