@@ -17,7 +17,17 @@ var client = (function() {
     if (state!="closed"||poll.uid!=uid) {
       uid=poll.uid;
       state="closed";
-      console.log("Poll closed!", poll);
+      var questions=[];
+      for (var k in poll.votes) {
+          if (poll.votes.hasOwnProperty(k)) {
+              questions.push({text:k,votes:poll.votes[k]});
+          }
+      }
+      var view = {
+        title: poll.title,
+        questions: questions
+      };
+      templates.render("closed_poll",view);
     }
   }
 
@@ -29,12 +39,11 @@ var client = (function() {
       var questions=[];
       for (var k in poll.votes) {
           if (poll.votes.hasOwnProperty(k)) {
-              questions.push({q:k});
+              questions.push({text:k,my_vote:poll.my_vote==k});
           }
       }
       var view = {
         title: poll.title,
-        open: poll.open,
         questions: questions
       };
       templates.render("open_poll",view);
