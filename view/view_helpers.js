@@ -30,20 +30,6 @@ function makeJsonRenderer(obj) {
   };
 }
 
-function randChoice(arr) {
-  // Return something random out of us
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function buildUuid(size) {
-  // Builds a unique string of length size
-  var result = [];
-  for (var i=0; i<size; i++) {
-    result.push(randChoice("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ0123456789"));
-  }
-  return result.join("");
-}
-
 function booleanize(m) {
   if (typeof m == 'string') {
     return (["", "n", "nil", "null", "undefined", "no", "f", "false"].indexOf(m.toLowerCase()) != -1);
@@ -71,8 +57,6 @@ function redirect(req, res, url) {
 
 exports.renderJson       = renderJson;
 exports.makeJsonRenderer = makeJsonRenderer;
-exports.buildUuid        = buildUuid;
-exports.randChoice       = randChoice;
 exports.booleanize       = booleanize;
 exports.curry            = curry;
 exports.redirect         = redirect;

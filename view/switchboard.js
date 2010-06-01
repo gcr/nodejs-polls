@@ -134,6 +134,7 @@ function dispatchQueryOverload(req, res) {
 }
 
 function makeDispatchQueryOverloader() {
+  // Currying
   var declarations = Array.prototype.slice.call(arguments);
   return function(req, res) {
     return dispatchQueryOverload.apply(this, [req, res].concat(declarations));

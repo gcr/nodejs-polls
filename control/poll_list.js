@@ -16,7 +16,7 @@ function del(plist, req, res, n) {
 }
 
 // Please curry me!
-function add(plist, req, res, ignored, title, questions) {
+function add(plist, req, res, title, questions) {
   if (plist && typeof title == 'string' && questions instanceof Array) {
     renderJson(req, res, plist.add(title, questions)?"success":"fail");
     plist.commit();

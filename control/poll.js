@@ -3,6 +3,7 @@
 var sys = require('sys'),
     Poll = require('./../model/poll'),
     renderJson = require('./../view/view_helpers').renderJson,
+    redirect = require('./../view/view_helpers').redirect,
     activePoll = null;
 
 function set(req, res, title, questions) {
