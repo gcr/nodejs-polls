@@ -8,11 +8,12 @@
         src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 
     <script src="js/mustache.js" type="text/javascript"></script>
-    <script src="js/templates.js" type="text/javascript"></script>
+    <script src="js/templating.js" type="text/javascript"></script>
     <script src="js/client.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
+            client.poll();
             setInterval(client.poll, 1000);
         });
     </script>

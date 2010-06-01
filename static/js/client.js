@@ -1,5 +1,6 @@
 // Client functions
 //
+/*global templates: true*/
 
 var client = (function() {
   var state=null, // The state of the current poll
@@ -8,7 +9,7 @@ var client = (function() {
   function noPoll() {
     if (state!="nopoll") {
       state="nopoll";
-      console.log("No poll!");
+      templates.render("nopoll");
     }
   }
 
@@ -24,7 +25,19 @@ var client = (function() {
     if (state!="open"||poll.uid!=uid) {
       uid=poll.uid;
       state="open";
-      console.log("Poll open!", poll);
+
+      var questions=[];
+      for (var k in poll.votes) {
+          if (poll.votes.hasOwnProperty(k)) {
+              questions.push({q:k});
+          }
+      }
+      var view = {
+        title: poll.title,
+        open: poll.open,
+        questions: questions
+      };
+      templates.render("open_poll",view);
     }
     if (poll.my_vote) {
       console.log("I voted", poll);
@@ -33,6 +46,7 @@ var client = (function() {
     }
   }
 
+  ///////////////
   function poll() {
     // poll for polls! ha!
     $.getJSON("poll", {}, function(poll){
