@@ -39,8 +39,6 @@ var
 sys.log("Starting up...");
 routes.addRoutes(
   {
-    // Default page.
-    // http://localhost:8080/
     '': staticFiles.makeFileServer("static/index.htm"),
     'css': staticFiles.makeFileServer("static/css"),
     'js': staticFiles.makeFileServer("static/js"),
