@@ -1,22 +1,14 @@
 // Client functions
 //
-/*global templates: true*/
+/*global polling: true, templates: true*/
 
 var client = (function() {
-  var state=null, // The state of the current poll
-      uid=0;
-
-  function noPoll() {
-    if (state!="nopoll") {
-      state="nopoll";
+  var watchedPoll = new polling.Poll(
+    function noPoll() {
       templates.render("nopoll");
-    }
-  }
+    },
 
-  function closedPoll(poll) {
-    if (state!="closed"||poll.uid!=uid) {
-      uid=poll.uid;
-      state="closed";
+    function closedPoll(poll) {
       var questions=[];
       for (var k in poll.votes) {
           if (poll.votes.hasOwnProperty(k)) {
@@ -28,14 +20,9 @@ var client = (function() {
         questions: questions
       };
       templates.render("closed_poll",view);
-    }
-  }
+    },
 
-  function openPoll(poll) {
-    if (state!="open"||poll.uid!=uid) {
-      uid=poll.uid;
-      state="open";
-
+    function openPoll(poll) {
       var questions=[];
       for (var k in poll.votes) {
           if (poll.votes.hasOwnProperty(k)) {
@@ -48,28 +35,15 @@ var client = (function() {
       };
       templates.render("open_poll",view);
     }
-    if (poll.my_vote) {
-      console.log("I voted", poll);
-    } else {
-      console.log("I didn't vote");
-    }
-  }
+  );
 
   ///////////////
   function poll() {
-    // poll for polls! ha!
-    $.getJSON("poll", {}, function(poll){
-      if (poll=="no poll") {
-        noPoll();
-      } else if (!poll.open) {
-        closedPoll(poll);
-      } else {
-        openPoll(poll);
-      }
-    });
+    watchedPoll.poll();
   }
 
   return {
-    poll: poll
+    poll: poll,
+    watchedPoll: watchedPoll
   };
 })();
