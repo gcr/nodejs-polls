@@ -17,6 +17,7 @@ function renderJson(req, res, obj, status) {
   } else {
     json = json + "\n";
   }
+  sys.log(json);
   res.writeHead(status||200, {"Content-Type": "text/plain; charset=utf-8",
                                         // todo: change to text/json
                         "Content-Length": json.length});
