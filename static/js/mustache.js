@@ -4,7 +4,7 @@
   See http://mustache.github.com/ for more info.
 */
 
-var Mustache = function() {
+var Mustache = function($) {
   var Renderer = function() {};
 
   Renderer.prototype = {
@@ -318,4 +318,4 @@ var Mustache = function() {
       }
     }
   });
-}();
+}(jQuery);

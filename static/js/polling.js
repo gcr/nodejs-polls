@@ -2,7 +2,7 @@
 //
 /*global templates: true*/
 
-var polling = (function() {
+var polling = (function($) {
 
   function Poll(noPoll, closedPoll, openPoll) {
     this.state=null; // The state of the current poll
@@ -40,4 +40,4 @@ var polling = (function() {
   return {
     Poll: Poll
   };
-})();
+})(jQuery);

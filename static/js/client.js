@@ -2,7 +2,7 @@
 //
 /*global polling: true, templates: true*/
 
-var client = (function() {
+var client = (function($) {
   var watchedPoll = new polling.Poll(
     function noPoll() {
       templates.render("nopoll");
@@ -46,4 +46,4 @@ var client = (function() {
     poll: poll,
     watchedPoll: watchedPoll
   };
-})();
+})(jQuery);

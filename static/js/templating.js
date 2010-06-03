@@ -1,7 +1,7 @@
 // How to render templates
 /*global Mustache: true*/
 
-var templates = (function() {
+var templates = (function($) {
 
   var cached = {};
 
@@ -26,4 +26,4 @@ var templates = (function() {
     render: render
   };
 
-})();
+})(jQuery);
