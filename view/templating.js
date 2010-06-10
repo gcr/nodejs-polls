@@ -1,29 +1,31 @@
 // How to render templates
-/*global Mustache: true*/
 
-var templates = (function($) {
+var Mustache = require('./mustache'),
+    fs = require('fs');
 
-  var cached = {};
 
-  function render(tplName, view, cb) {
-    function reallyRender(template) {
-      console.log(view);
-      $("body").html(Mustache.to_html(template, view));
-      return typeof cb == 'function'?cb():null;
-    }
+var cached = {};
 
-    if (tplName in cached) {
-      reallyRender(cached[tplName]);
-    } else {
-      $.get("js/"+tplName+".mustache", {}, function(data) {
-        cached[tplName] = data;
-        reallyRender(cached[tplName]);
-      }, "text");
-    }
+function render(tplName, view, req, res) {
+  function reallyRender(template) {
+    var text = Mustache.to_html(template, view);
+
+    res.writeHead(status||200, {"Content-Type": "text/html; charset=utf-8",
+                                          // todo: change to text/json
+                          "Content-Length": text.length});
+    res.end(text);
   }
 
-  return {
-    render: render
-  };
+  if (tplName in cached) {
+    reallyRender(cached[tplName]);
+  } else {
+    fs.readFile('static/'+tplName+'.mustache', function(data) {
+      cached[tplName] = data;
+      reallyRender(cached[tplName]);
+    });
+  }
+}
 
-})(jQuery);
+var exports = {
+  render: render
+};
