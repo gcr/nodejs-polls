@@ -49,12 +49,10 @@ routes.addRoutes(
       activePoll.curryGet(voting.vote),
       ['close'],
       activePoll.curryGet(voting.close),
+      ['set', 'title', 'questions'],
+      activePoll.currySet(poll.set),
       [],
       activePoll.curryGet(poll.renderStatus)
-    ),
-    'set_poll': switchboard.makeDispatchQueryOverloader(
-      ['title', 'questions'],
-      activePoll.currySet(poll.set)
     ),
 
     'list': switchboard.makeDispatchQueryOverloader(
@@ -62,12 +60,10 @@ routes.addRoutes(
       curry(pollListCtl.get, plist),
       ['del'],
       curry(pollListCtl.del, plist),
+      ['save', 'title', 'questions'],
+      curry(pollListCtl.add, plist),
       [],
       curry(pollListCtl.get, plist)
-    ),
-    'save': switchboard.makeDispatchQueryOverloader(
-      ['title', 'questions'],
-      curry(pollListCtl.add, plist)
     )
 
   }

@@ -10,7 +10,7 @@ function render(tplName, view, req, res) {
   function reallyRender(template) {
     var text = Mustache.to_html(template, view);
 
-    res.writeHead(status||200, {"Content-Type": "text/html; charset=utf-8",
+    res.writeHead(200, {"Content-Type": "text/html; charset=utf-8",
                                           // todo: change to text/json
                           "Content-Length": text.length});
     res.end(text);
@@ -26,6 +26,4 @@ function render(tplName, view, req, res) {
   }
 }
 
-var exports = {
-  render: render
-};
+exports.render = render;

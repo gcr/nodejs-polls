@@ -6,7 +6,7 @@ var sys = require('sys'),
     redirect = require('./../view/view_helpers').redirect,
     activePoll = null;
 
-function set(req, res, title, questions) {
+function set(req, res, ignore, title, questions) {
   var poll = new Poll.Poll(title, questions);
   renderJson(req, res, "success");
   return poll;
