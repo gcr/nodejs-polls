@@ -25,7 +25,7 @@ function renderJson(req, res, obj, status) {
 }
 
 // Want to just plug something into your switchboard and be off straightaway?
-function makeJsonRenderer(obj) {
+function curryJsonRender(obj) {
   return function(req, res) {
     renderJson(req, res, obj);
   };
@@ -56,8 +56,15 @@ function redirect(req, res, url) {
   res.end(body);
 }
 
+function curryRedirect(url) {
+  return function(req, res) {
+    redirect(req, res, url);
+  };
+}
+
 exports.renderJson       = renderJson;
-exports.makeJsonRenderer = makeJsonRenderer;
+exports.curryJsonRender  = curryJsonRender;
 exports.booleanize       = booleanize;
 exports.curry            = curry;
 exports.redirect         = redirect;
+exports.curryRedirect    = curryRedirect;

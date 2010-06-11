@@ -50,7 +50,7 @@ routes.addRoutes(
     'js': staticFiles.makeFileServer("static/js"),
     'img': staticFiles.makeFileServer("static/img"),
 
-    'poll': student.viewPoll,
+    'poll': activePoll.curryGet(student.viewPoll),
 
     'api': switchboard.makeDispatchQueryOverloader(
       ['vote'],

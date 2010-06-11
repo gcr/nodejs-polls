@@ -6,7 +6,7 @@ var Mustache = require('./mustache'),
 
 var cached = {};
 
-function render(tplName, view, req, res) {
+function sendTemplate(tplName, view, req, res) {
   function reallyRender(template) {
     var text = Mustache.to_html(template, view);
 
@@ -26,4 +26,4 @@ function render(tplName, view, req, res) {
   }
 }
 
-exports.render = render;
+exports.sendTemplate = sendTemplate;
