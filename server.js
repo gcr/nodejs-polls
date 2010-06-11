@@ -51,6 +51,9 @@ routes.addRoutes(
     'img': staticFiles.makeFileServer("static/img"),
 
     'poll': activePoll.curryGet(student.viewPoll),
+    'nopoll': null,
+    'results': null,
+    'voted': null,
 
     'api': switchboard.makeDispatchQueryOverloader(
       ['vote'],

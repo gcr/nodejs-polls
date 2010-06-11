@@ -11,7 +11,7 @@ function viewPoll(poll, req, res) {
   if (!poll) {
     return redirect(req, res, 'nopoll');
   } else if (!poll.open) {
-    return redirect(req, res, 'poll_results');
+    return redirect(req, res, 'results');
   } else if (poll.myVote(req.connection.remoteAddress)) {
     return redirect(req, res, 'voted');
   } else {
