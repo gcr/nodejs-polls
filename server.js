@@ -51,7 +51,7 @@ routes.addRoutes(
     'img': staticFiles.makeFileServer("static/img"),
 
     'poll': activePoll.curryGet(student.viewPoll),
-    'nopoll': null,
+    'nopoll': activePoll.curryGet(student.noPoll),
     'results': null,
     'voted': null,
 
