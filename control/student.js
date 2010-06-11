@@ -17,7 +17,9 @@ function noPoll(poll, req, res) {
       return redirect(req, res, 'poll');
     }
   } else {
-    return templates.render('nopoll', {}, req, res);
+    return templates.render('nopoll', {
+      student: true
+    }, req, res);
   }
 }
 
