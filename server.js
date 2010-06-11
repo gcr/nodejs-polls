@@ -1,19 +1,25 @@
 var
-  http        = require('http'),
-  sys         = require('sys'),
-  routes      = require('./view/routes'),
-  staticFiles = require('./view/static'),
-  curry       = require('./view/view_helpers').curry,
-  switchboard = require("./view/switchboard"),
-  poll        = require('./control/poll'),
-  voting      = require('./control/voting'),
-  pl          = require('./model/poll_list'),
-  pollListCtl = require('./control/poll_list'),
-  ap          = require('./model/active_poll'),
-  activePoll  = new ap.Container(),
-
-  plist       = new pl.PollList('poll_list.json'),
-  PORT        = 8080;
+// AUX
+  http          = require('http'),
+  sys           = require('sys'),
+  routes        = require('./view/routes'),
+// View helpers
+  staticFiles   = require('./view/static'),
+  curry         = require('./view/view_helpers').curry,
+  curryRedirect = require('./view/view_helpers').curryRedirect,
+  switchboard   = require("./view/switchboard"),
+// Controllers
+  student       = require('./control/student'),
+  voting        = require('./control/voting'),
+  poll          = require('./control/poll'),
+  pollListCtl   = require('./control/poll_list'),
+// Models
+  pl            = require('./model/poll_list'),
+  ap            = require('./model/active_poll'),
+  activePoll    = new ap.Container(),
+  plist         = new pl.PollList('poll_list.json'),
+// Settings
+  PORT          = 8080;
 
 // Some notes. We'll need some sort of very simple RPC system.
 // Server: Designed to be seen in-class
@@ -39,12 +45,14 @@ var
 sys.log("Starting up...");
 routes.addRoutes(
   {
-    '': staticFiles.makeFileServer("static/index.htm"),
+    '': curryRedirect('poll'),
     'css': staticFiles.makeFileServer("static/css"),
     'js': staticFiles.makeFileServer("static/js"),
     'img': staticFiles.makeFileServer("static/img"),
 
-    'poll': switchboard.makeDispatchQueryOverloader(
+    'poll': student.viewPoll,
+
+    'api': switchboard.makeDispatchQueryOverloader(
       ['vote'],
       activePoll.curryGet(voting.vote),
       ['close'],
