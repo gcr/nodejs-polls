@@ -15,7 +15,7 @@ function viewPoll(poll, req, res) {
   } else if (poll.myVote(req.connection.remoteAddress)) {
     return redirect(req, res, 'voted');
   } else {
-    return null; //TODO
+    return templates.render('open_poll', {}, req, res);
   }
 }
 
