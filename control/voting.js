@@ -15,7 +15,7 @@ function close(poll, req, res) {
 function vote(poll, req, res, choice) {
   // Vote in a poll from an IP
   if (poll) {
-    return renderJson(req, res, poll.vote(req.connection.remoteAddress, choice)?"success":"fail");
+    return renderJson(req, res, poll.vote(req.headers['x-forwarded-for'] || req.connection.remoteAddress, choice)?"success":"fail");
   } else {
     return renderJson(req, res, "no poll");
   }

@@ -11,7 +11,7 @@ function noPoll(poll, req, res) {
   if (poll) {
     if (!poll.open) {
       return redirect(req, res, 'results');
-    } else if (poll.myVote(req.connection.remoteAddress)) {
+    } else if (req.headers['x-forwarded-for'] || poll.myVote(req.connection.remoteAddress)) {
       return redirect(req, res, 'voted');
     } else {
       return redirect(req, res, 'poll');
@@ -33,7 +33,7 @@ function viewPoll(poll, req, res) {
     return redirect(req, res, 'nopoll');
   } else if (!poll.open) {
     return redirect(req, res, 'results');
-  } else if (poll.myVote(req.connection.remoteAddress)) {
+  } else if (poll.myVote(req.headers['x-forwarded-for'] || req.connection.remoteAddress)) {
     return redirect(req, res, 'voted');
   } else {
     return templates.render('open_poll', {}, req, res);

@@ -14,7 +14,7 @@ function set(req, res, ignore, title, questions) {
 function renderStatus(poll, req, res) {
   if (poll) {
     var result = poll.toJson();
-    result.my_vote = poll.myVote(req.connection.remoteAddress) || false;
+    result.my_vote = poll.myVote(req.headers['x-forwarded-for'] || req.connection.remoteAddress) || false;
     return renderJson(req, res, result);
   }
   return renderJson(req, res, "no poll");
