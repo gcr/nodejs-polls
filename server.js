@@ -19,7 +19,7 @@ var
   activePoll    = new ap.Container(),
   plist         = new pl.PollList('saved_polls.json'),
 // Settings
-  PORT          = 8080;
+  PORT          = 8001;
 
 // Some notes. We'll need some sort of very simple RPC system.
 // Server: Designed to be seen in-class
