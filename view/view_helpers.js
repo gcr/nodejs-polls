@@ -20,6 +20,7 @@ function renderJson(req, res, obj, status) {
   sys.log(json);
   res.writeHead(status||200, {"Content-Type": "text/plain; charset=utf-8",
                                         // todo: change to text/json
+                        'Cache-Control': 'no-cache',
                         "Content-Length": json.length});
   res.end(json);
 }

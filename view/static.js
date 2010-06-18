@@ -174,7 +174,7 @@ function serveFile(webroot, urlPath, req, res) {
             sys.log("The file broke! URL: " + req.url + "\n\n" + (err.stack || sys.inspect(err)));
             var errtext = "Couldn't open file";
             res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
-                                                  // todo: change to text/json
+                                  'Cache-Control': 'no-cache',
                                   "Content-Length": errtext.length});
             res.end(errtext);
             return false;
