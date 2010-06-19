@@ -25,7 +25,7 @@ var
 // Server: Designed to be seen in-class
 //   Create a new poll. Either "Save" it for later or "Open" a poll.
 //       Also present a list of prepared questions:
-//          "Use" a question or
+//          "Use" a poll or
 //          "Delete" it
 //   Then comes the "Waiting for votes..." screen
 //     Constantly polls and displays the total number of votes
@@ -66,7 +66,7 @@ routes.addRoutes(
       activePoll.curryGet(voting.vote),
       ['close'],
       activePoll.curryGet(voting.close),
-      ['set', 'title', 'questions'],
+      ['set', 'title', 'answers'],
       activePoll.currySet(poll.set),
       [],
       activePoll.curryGet(poll.renderStatus)
@@ -77,7 +77,7 @@ routes.addRoutes(
       curry(pollListCtl.get, plist),
       ['del'],
       curry(pollListCtl.del, plist),
-      ['save', 'title', 'questions'],
+      ['save', 'title', 'answers'],
       curry(pollListCtl.add, plist),
       [],
       curry(pollListCtl.get, plist)

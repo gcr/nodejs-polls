@@ -9,29 +9,29 @@ var client = (function($) {
     },
 
     function closedPoll(poll) {
-      var questions=[];
+      var answers=[];
       for (var k in poll.votes) {
           if (poll.votes.hasOwnProperty(k)) {
-              questions.push({text:k,votes:poll.votes[k]});
+              answers.push({text:k,votes:poll.votes[k]});
           }
       }
       var view = {
         title: poll.title,
-        questions: questions
+        answers: answers
       };
       templates.render("closed_poll",view);
     },
 
     function openPoll(poll) {
-      var questions=[];
+      var answers=[];
       for (var k in poll.votes) {
           if (poll.votes.hasOwnProperty(k)) {
-              questions.push({text:k,my_vote:poll.my_vote==k});
+              answers.push({text:k,my_vote:poll.my_vote==k});
           }
       }
       var view = {
         title: poll.title,
-        questions: questions
+        answers: answers
       };
       templates.render("open_poll",view);
     }

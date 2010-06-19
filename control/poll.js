@@ -5,8 +5,8 @@ var sys = require('sys'),
     renderJson = require('./../view/view_helpers').renderJson,
     redirect = require('./../view/view_helpers').redirect;
 
-function set(req, res, ignore, title, questions) {
-  var poll = new Poll.Poll(title, questions);
+function set(req, res, ignore, title, answers) {
+  var poll = new Poll.Poll(title, answers);
   renderJson(req, res, "success");
   return poll;
 }

@@ -33,9 +33,9 @@ function viewPoll(poll, req, res) {
       scripts: ["/js/student.js"],
       //           !! casts to boolean
       clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
-      questions: poll.questions.map(function(q) {
+      answers: poll.answers.map(function(q) {
       return {
-        question: q,
+        answer: q,
         isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress) == q};
       })
     }, req, res);
@@ -48,14 +48,14 @@ function pollResults(poll, req, res) {
   if (!poll) {
     return redirect(req, res, 'nopoll');
   } else if (!poll.open) {
-    // map questions to both text and whether that's my vote or not.
+    // map answers to both text and whether that's my vote or not.
     var tally = poll.tally(), resultTally = [];
-    for (var question in tally) {
-        if (tally.hasOwnProperty(question)) {
+    for (var answer in tally) {
+        if (tally.hasOwnProperty(answer)) {
           resultTally.push({
-            question: question,
-            votes: tally[question],
-            isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress)==question
+            answer: answer,
+            votes: tally[answer],
+            isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress)==answer
           });
         }
     }
@@ -64,7 +64,7 @@ function pollResults(poll, req, res) {
       scripts: ["/js/student.js"],
       //           !! casts to boolean
       clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
-      questions: resultTally
+      answers: resultTally
     }, req, res);
   } else {
     return redirect(req, res, 'poll');

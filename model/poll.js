@@ -3,22 +3,22 @@ var
   events = require('events'),
   assert = require('assert');
 
-function Poll(title, questions) {
+function Poll(title, answers) {
   // This builds a poll.
   //
   // A poll is:
-  //    A list of questions
-  //    A list of votes that map keys (IP addresses? cookies?) to questions
+  //    A list of answers
+  //    A list of votes that map keys (IP addresses? cookies?) to answers
   this.title = title;
   this.open = true;
-  this.questions = questions;
+  this.answers = answers;
   this.uid = Math.floor(Math.random()*32767);
   this.votes = {};
 }
 sys.inherits(Poll, events.EventEmitter);
 
 Poll.prototype.vote = function(key, choice) {
-  assert.ok(this.questions.indexOf(choice) != -1, "Voting for an option that doesn't exist!");
+  assert.ok(this.answers.indexOf(choice) != -1, "Voting for an option that doesn't exist!");
   if (!this.open) {
     return false;
   }
@@ -48,8 +48,8 @@ Poll.prototype.close = function() {
 
 Poll.prototype.tally = function() {
   var result = {};
-  for (var i=0,l=this.questions.length; i<l; i++) {
-      result[this.questions[i]] = 0;
+  for (var i=0,l=this.answers.length; i<l; i++) {
+      result[this.answers[i]] = 0;
   }
   for (var key in this.votes) {
     if (this.votes.hasOwnProperty(key)) {

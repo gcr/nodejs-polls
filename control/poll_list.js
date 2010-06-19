@@ -16,9 +16,9 @@ function del(plist, req, res, n) {
 }
 
 // Please curry me!
-function add(plist, req, res, ignore, title, questions) {
-  if (plist && typeof title == 'string' && questions instanceof Array) {
-    renderJson(req, res, plist.add(title, questions)?"success":"fail");
+function add(plist, req, res, ignore, title, answers) {
+  if (plist && typeof title == 'string' && answers instanceof Array) {
+    renderJson(req, res, plist.add(title, answers)?"success":"fail");
     plist.commit();
   } else {
     // stupid client!

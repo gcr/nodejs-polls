@@ -5,7 +5,7 @@ var fs = require('fs'),
 function PollList(filename) {
   // This is a list of polls read from a file.
   // I guess each poll is not a real Poll object, but an object that contains
-  // a Title and a list of Questions.
+  // a Title and a list of answers.
   this.filename = filename;
   //this.polls = [];
   var buffer=fs.readFileSync(filename);
@@ -29,9 +29,9 @@ PollList.prototype.del = function(n) {
   }
 };
 
-PollList.prototype.add = function(title, questions) {
-  if (typeof title == 'string' && questions instanceof Array) {
-    this.polls.push({title: title, questions: questions});
+PollList.prototype.add = function(title, answers) {
+  if (typeof title == 'string' && answers instanceof Array) {
+    this.polls.push({title: title, answers: answers});
     return true;
   } else {
     return false;
