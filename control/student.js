@@ -49,12 +49,22 @@ function pollResults(poll, req, res) {
     return redirect(req, res, 'nopoll');
   } else if (!poll.open) {
     // map questions to both text and whether that's my vote or not.
+    var tally = poll.tally(), resultTally = [];
+    for (var question in tally) {
+        if (tally.hasOwnProperty(question)) {
+          resultTally.push({
+            question: question,
+            votes: tally[question],
+            isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress)==question
+          });
+        }
+    }
     return templates.render('results', {
       student: true,
       scripts: ["/js/student.js"],
       //           !! casts to boolean
       clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
-      questions: poll.mapMyVote(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
+      questions: resultTally
     }, req, res);
   } else {
     return redirect(req, res, 'poll');
