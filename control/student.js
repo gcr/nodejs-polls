@@ -32,7 +32,7 @@ function viewPoll(poll, req, res) {
       student: true,
       scripts: ["/js/student.js"],
       //           !! casts to boolean
-      clientVoted: !!poll.myVote(req.headers['x-forwarded-for']),
+      clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
       questions: poll.mapMyVote(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
     }, req, res);
   }
@@ -48,7 +48,7 @@ function pollResults(poll, req, res) {
       student: true,
       scripts: ["/js/student.js"],
       //           !! casts to boolean
-      clientVoted: !!poll.myVote(req.headers['x-forwarded-for']),
+      clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
       questions: poll.mapMyVote(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
     }, req, res);
   } else {

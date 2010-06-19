@@ -65,13 +65,11 @@ Poll.prototype.mapMyVote = function(key) {
   //    {question: "...", myVote: false}
   // ]
   var result = [];
-  for (var question in this.questions) {
-      if (this.questions.hasOwnProperty(question)) {
-        result.push({
-          question: question,
-          isMyVote: this.myVote(key) == question
-        });
-      }
+  for (var i=0,l=this.questions.length; i<l; i++) {
+    result.push({
+        question: this.questions[i],
+        isMyVote: this.myVote(key) == this.questions[i]
+      });
   }
   return result;
 };
