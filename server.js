@@ -55,6 +55,12 @@ routes.addRoutes(
     'vote': null,
     'results': activePoll.curryGet(student.pollResults),
 
+    'debug': function(req, res) {
+      sys.log("Dumping poll state at remote's request");
+      sys.puts(sys.inspect(activePoll.get()));
+      res.writeHead(500); res.end();
+    },
+
     'api': switchboard.makeDispatchQueryOverloader(
       ['vote'],
       activePoll.curryGet(voting.vote),
