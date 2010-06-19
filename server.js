@@ -52,8 +52,8 @@ routes.addRoutes(
 
     'poll': activePoll.curryGet(student.viewPoll),
     'nopoll': activePoll.curryGet(student.noPoll),
-    'results': null,
-    'voted': null,
+    'vote': null,
+    'results': activePoll.curryGet(student.pollResults),
 
     'api': switchboard.makeDispatchQueryOverloader(
       ['vote'],

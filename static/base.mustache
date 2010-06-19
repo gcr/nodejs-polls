@@ -4,6 +4,10 @@
 	<meta charset="UTF-8">
 	<title>{{title}}</title>
     {{%IMPLICIT-ITERATOR}}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/polling.js"></script>
+
+    <!-- specific -->
     {{#scripts}}
     <script type="text/javascript" src="{{.}}"></script>
     {{/scripts}}

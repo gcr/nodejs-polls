@@ -1,8 +1,9 @@
-Poll closed
-<h1>Closed -- {{title}}</h1>
+<h1>Closed poll: {{title}}</h1>
+
+Did I vote? {{clientVoted}}
 
 <ul>
 {{#questions}}
-<li>{{text}}: {{votes}}</li>
+<li>{{question}} {{isMyVote}}</li>
 {{/questions}}
 </ul>

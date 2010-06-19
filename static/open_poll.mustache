@@ -1,10 +1,9 @@
-HELLO WORLD {{foo}}
-<h1>{{title}}</h1>
+<h1>Open poll: {{title}}</h1>
 
-Open? {{open}}
+Did I vote? {{clientVoted}}
 
 <ul>
 {{#questions}}
-<li>{{text}}</li>
+<li>{{question}} {{isMyVote}}</li>
 {{/questions}}
 </ul>

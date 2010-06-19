@@ -21,7 +21,7 @@ function render(tplName, view_mixin, req, res) {
   return loadCached('base', function(baseTemplate) {
       var view = {
         title: 'Welcome',
-        scripts: ["http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"]
+        scripts: []
       };
       for (var k in view_mixin) {
           if (view_mixin.hasOwnProperty(k)) {
