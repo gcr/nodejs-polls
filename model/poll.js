@@ -59,21 +59,6 @@ Poll.prototype.tally = function() {
   return result;
 };
 
-Poll.prototype.mapMyVote = function(key) {
-  // Convenience for templates. Returns [
-  //    {question: "...", myVote: true},
-  //    {question: "...", myVote: false}
-  // ]
-  var result = [];
-  for (var i=0,l=this.questions.length; i<l; i++) {
-    result.push({
-        question: this.questions[i],
-        isMyVote: this.myVote(key) == this.questions[i]
-      });
-  }
-  return result;
-};
-
 Poll.prototype.myVote = function(key) {
   return this.votes[key];
 };

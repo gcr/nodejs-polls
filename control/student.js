@@ -33,7 +33,11 @@ function viewPoll(poll, req, res) {
       scripts: ["/js/student.js"],
       //           !! casts to boolean
       clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
-      questions: poll.mapMyVote(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
+      questions: poll.questions.map(function(q) {
+      return {
+        question: q,
+        isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress) == q};
+      })
     }, req, res);
   }
 }
@@ -44,6 +48,7 @@ function pollResults(poll, req, res) {
   if (!poll) {
     return redirect(req, res, 'nopoll');
   } else if (!poll.open) {
+    // map questions to both text and whether that's my vote or not.
     return templates.render('results', {
       student: true,
       scripts: ["/js/student.js"],
