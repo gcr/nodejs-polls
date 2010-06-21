@@ -51,10 +51,12 @@ function curry(func, opt) {
 }
 
 function redirect(req, res, url) {
+  // Redirects client to a new happy place with a 302. Also returns false.
   var body = '<!DOCTYPE HTML><html lang="en"><head><meta charset="UTF-8"><title>Redirect</title></head><body><a href="'+url+'">'+url+'</a></body></html>';
   res.writeHead(302, {"Location": url,
                       "Content-Length": body.length});
   res.end(body);
+  return false;
 }
 
 function curryRedirect(url) {
