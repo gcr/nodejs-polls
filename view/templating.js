@@ -48,6 +48,8 @@ function render(tplName, view_mixin, req, res) {
           view, {'body': tplText});
         res.writeHead(200, {"Content-Type": "text/html; charset=utf-8",
                                               // todo: change to text/json
+                              'Cache-Control': 'no-cache, must-revalidate',
+                              'Pragma': 'no-cache',
                               "Content-Length": text.length});
         res.end(text);
       });

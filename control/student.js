@@ -1,6 +1,7 @@
 // Handles rendering templates for the student
 var templates = require('../view/templating'),
-    redirect = require('../view/view_helpers').redirect;
+    redirect = require('../view/view_helpers').redirect,
+    url = require('url');
 
 function thisIs(req, res, poll, urlname) {
   // This function directs the student to the correct URL based on a hardcoded
@@ -83,9 +84,22 @@ function pollResults(poll, req, res) {
   }, req, res);
 }
 
+// Curry me!
+function vote(poll, req, res) {
+  // Vote in a poll from an IP
+  if (poll) {
+    poll.vote(req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+      (url.parse(req.url, true).query || {}).choice
+    );
+    return redirect(req, res, "poll");
+  } else {
+    return redirect(req, res, "nopoll");
+  }
+}
 
 
 exports.viewPoll = viewPoll;
 exports.noPoll = noPoll;
 exports.pollResults = pollResults;
 exports.pickOne = pickOne;
+exports.vote = vote;

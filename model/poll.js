@@ -18,7 +18,7 @@ function Poll(title, answers) {
 sys.inherits(Poll, events.EventEmitter);
 
 Poll.prototype.vote = function(key, choice) {
-  assert.ok(this.answers.indexOf(choice) != -1, "Voting for an option that doesn't exist!");
+  assert.ok(this.answers.indexOf(choice) != -1, "Voting for " + choice + " but that isn't an option.");
   if (!this.open) {
     return false;
   }

@@ -54,7 +54,7 @@ routes.addRoutes(
 
     'poll': activePoll.curryGet(student.viewPoll),
     'nopoll': activePoll.curryGet(student.noPoll),
-    'vote': null,
+    'vote': activePoll.curryGet(student.vote),
     'results': activePoll.curryGet(student.pollResults),
 
     'debug': function(req, res) {
