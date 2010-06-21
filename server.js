@@ -46,7 +46,7 @@ sys.log("Starting up...");
 routes.addRoutes(
   {
     '': activePoll.curryGet(student.pickOne),
-    // Send them to the default spot
+    // Send users to the correct spot
 
     'css': staticFiles.makeFileServer("static/css"),
     'js': staticFiles.makeFileServer("static/js"),
