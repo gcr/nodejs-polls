@@ -2,17 +2,29 @@
 
 var Mustache = require('./mustache'),
     fs = require('fs'),
-    sys = require('sys');
+    sys = require('sys'),
+    CACHE_TIMEOUT = 1000 * 60 * 10;
 
+var cached = {},
+    timers = {};
 
-var cached = {};
 function loadCached(tplName, cb) {
+  function expire() {
+    sys.log("Expiring " + tplName + " from cache...");
+    delete cached[tplName];
+    delete timers[tplName];
+  }
   if (tplName in cached) {
+    // Reset the expiration timer and send
+    clearTimeout(timers[tplName]);
+    timers[tplName] = setTimeout(expire, CACHE_TIMEOUT);
     cb(cached[tplName]);
   } else {
     fs.readFile('static/'+tplName+'.mustache', function(err,data) {
       cached[tplName] = ""+data;
       cb(cached[tplName]);
+      // Set the cache expiration timer
+      timers[tplName] = setTimeout(expire, CACHE_TIMEOUT);
     });
   }
 }
