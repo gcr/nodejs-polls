@@ -21,6 +21,10 @@ function thisIs(req, res, poll, urlname) {
   }
 }
 
+function pickOne(poll, req, res) {
+  return thisIs(req, res, poll, 'nothing');
+}
+
 // Curry me!
 function noPoll(poll, req, res) {
   // We need to send the person to the right spot, se let's redirect
@@ -84,3 +88,4 @@ function pollResults(poll, req, res) {
 exports.viewPoll = viewPoll;
 exports.noPoll = noPoll;
 exports.pollResults = pollResults;
+exports.pickOne = pickOne;

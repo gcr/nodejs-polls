@@ -45,7 +45,9 @@ var
 sys.log("Starting up...");
 routes.addRoutes(
   {
-    '': curryRedirect('poll'),
+    '': activePoll.curryGet(student.pickOne),
+    // Send them to the default spot
+
     'css': staticFiles.makeFileServer("static/css"),
     'js': staticFiles.makeFileServer("static/js"),
     'img': staticFiles.makeFileServer("static/img"),
