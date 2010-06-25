@@ -1,4 +1,5 @@
 // Handles rendering templates for the student
+/*global escape: true */
 var templates = require('../view/templating'),
     redirect = require('../view/view_helpers').redirect,
     uniqId = require('./uid').uniqId,
@@ -51,9 +52,11 @@ function viewPoll(poll, req, res) {
     scripts: ["/js/student.js"],
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
+    pollTitle: poll.title,
     answers: poll.answers.map(function(q) {
     return {
       answer: q,
+      url: "/vote?choice=" + escape(q),
       isMyVote: poll.myVote(uniqId(req, res)) == q};
     })
   }, req, res);
@@ -81,6 +84,7 @@ function pollResults(poll, req, res) {
     scripts: ["/js/student.js"],
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
+    pollTitle: poll.title,
     answers: resultTally
   }, req, res);
 }

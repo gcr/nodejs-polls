@@ -1,9 +1,14 @@
-<h1>Open poll: {{title}}</h1>
+<h1>Open poll: {{pollTitle}}</h1>
 
 Did I vote? {{clientVoted}}
 
 <ul>
 {{#answers}}
-<li>{{answer}} {{isMyVote}}</li>
+    {{#isMyVote}}
+        <li>voted: {{answer}} {{isMyVote}}</li>
+    {{/isMyVote}}
+    {{^isMyVote}}
+        <li><a href="{{url}}">{{answer}}</a> {{isMyVote}}</li>
+    {{/isMyVote}}
 {{/answers}}
 </ul>
