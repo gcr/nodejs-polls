@@ -10,6 +10,7 @@ var
   switchboard   = require("./view/switchboard"),
 // Controllers
   student       = require('./control/student'),
+  admin         = require('./control/admin'),
   voting        = require('./control/voting'),
   poll          = require('./control/poll'),
   pollListCtl   = require('./control/poll_list'),
@@ -61,6 +62,15 @@ routes.addRoutes(
       sys.log("Dumping poll state at remote's request");
       sys.puts(sys.inspect(activePoll.get()));
       res.writeHead(500); res.end();
+    },
+
+    'admin': {
+      '': activePoll.curryGet(admin.pickOne),
+      'new': activePoll.curryGet(admin.newPoll),
+      'set': activePoll.currySet(admin.setPoll),
+      'wait': activePoll.curryGet(admin.waitPoll),
+      'close': null,
+      'results': null
     },
 
     'api': switchboard.makeDispatchQueryOverloader(
