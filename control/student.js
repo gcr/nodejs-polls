@@ -1,6 +1,7 @@
 // Handles rendering templates for the student
 var templates = require('../view/templating'),
     redirect = require('../view/view_helpers').redirect,
+    uniqId = require('./uid').uniqId,
     url = require('url');
 
 function thisIs(req, res, poll, urlname) {
@@ -49,11 +50,11 @@ function viewPoll(poll, req, res) {
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean
-    clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
+    clientVoted: !!poll.myVote(uniqId(req, res)),
     answers: poll.answers.map(function(q) {
     return {
       answer: q,
-      isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress) == q};
+      isMyVote: poll.myVote(uniqId(req, res)) == q};
     })
   }, req, res);
 }
@@ -71,7 +72,7 @@ function pollResults(poll, req, res) {
         resultTally.push({
           answer: answer,
           votes: tally[answer],
-          isMyVote: poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress)==answer
+          isMyVote: poll.myVote(uniqId(req, res))==answer
         });
       }
   }
@@ -79,7 +80,7 @@ function pollResults(poll, req, res) {
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean
-    clientVoted: !!poll.myVote(req.headers['x-forwarded-for']||req.connection.remoteAddress),
+    clientVoted: !!poll.myVote(uniqId(req, res)),
     answers: resultTally
   }, req, res);
 }
@@ -88,7 +89,7 @@ function pollResults(poll, req, res) {
 function vote(poll, req, res) {
   // Vote in a poll from an IP
   if (poll) {
-    poll.vote(req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+    poll.vote(uniqId(req, res),
       (url.parse(req.url, true).query || {}).choice
     );
     return redirect(req, res, "poll");

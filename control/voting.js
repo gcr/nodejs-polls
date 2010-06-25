@@ -1,5 +1,6 @@
 // Handles voting from IP addresses
-var renderJson = require('./../view/view_helpers').renderJson;
+var renderJson = require('./../view/view_helpers').renderJson,
+    uniqId = require('./uid').uniqId;
 
 // Curry me!
 function close(poll, req, res) {
@@ -15,7 +16,7 @@ function close(poll, req, res) {
 function vote(poll, req, res, choice) {
   // Vote in a poll from an IP
   if (poll) {
-    return renderJson(req, res, poll.vote(req.headers['x-forwarded-for'] || req.connection.remoteAddress, choice)?"success":"fail");
+    return renderJson(req, res, poll.vote(uniqId(req, res), choice)?"success":"fail");
   } else {
     return renderJson(req, res, "no poll");
   }
