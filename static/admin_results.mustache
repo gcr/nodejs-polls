@@ -1,0 +1,13 @@
+<h1>Closed poll: {{pollTitle}}</h1>
+
+Did I vote? {{clientVoted}}
+
+Total votes: {{numVotes}}
+
+<ul>
+{{#answers}}
+<li>{{answer}} had {{votes}} votes. Mine? {{isMyVote}}</li>
+{{/answers}}
+</ul>
+
+<a href="/admin/new">Make a new poll</a>

@@ -6,29 +6,12 @@ var templates = require('../view/templating'),
     uniqId = require('./uid').uniqId,
     url = require('url');
 
-function thisIs(req, res, poll, urlname) {
-  // See student.thisIs()
-  // Side effects: redirects client if needed.
-  if (poll && poll.open) {
-    // Open, existing poll
-    return urlname=='wait'? true : redirect(req, res, '/admin/wait');
-  } else {
-    // Either waiting on results or creating a new poll.
-    return urlname=='new'? true : redirect(req, res, '/admin/new');
-  }
-}
-
 function pickOne(poll, req, res) {
-  return thisIs(req, res, poll, 'nothing');
+  return redirect(req, res, "/admin/new");
 }
 
 // Curry me!
 function newPoll(poll, req, res) {
-  // We need to send the person to the right spot, se let's redirect
-  // him/her everywhere.
-  if (!thisIs(req, res, poll, 'new')) {
-    return; //redirected
-  }
   return templates.render('admin_new', {
     student: true,
     scripts: ["/js/student.js"]
@@ -54,8 +37,10 @@ function setPoll(req, res) {
 // Curry me!
 function waitPoll(poll, req, res) {
   // Redirect the person to where they need to go
-  if (!thisIs(req, res, poll, 'wait')) {
-    return; //redirected
+  if (!poll) {
+    return redirect(req, res, "/admin/new"); //redirected
+  } else if (!poll.open) {
+    return redirect(req, res, "/admin/results"); //redirected
   }
   var numVotes = 0;
   for (var k in poll.votes) {
@@ -79,14 +64,31 @@ function waitPoll(poll, req, res) {
   }, req, res);
 }
 
-////////////////////////////////////
 // Curry me!
-function pollResults(poll, req, res) {
+function closePoll(poll, req, res) {
+  if (!poll) {
+    throw new Error("There is no poll to close");
+  }
+  poll.close();
+  redirect(req, res, "/admin/results");
+}
+
+
+function results(poll, req, res) {
   // Redirect the person to where they need to go
-  if (!thisIs(req, res, poll, 'results')) {
-    return; //redirected
+  if (!poll) {
+    return redirect(req, res, "/admin/new"); //redirected
+  }
+  if (poll.open) {
+    return redirect(req, res, "/admin/wait"); //redirected
   }
   // map answers to both text and whether that's my vote or not.
+  var numVotes = 0;
+  for (var k in poll.votes) {
+      if (poll.votes.hasOwnProperty(k)) {
+        numVotes++;
+      }
+  }
   var tally = poll.tally(), resultTally = [];
   for (var answer in tally) {
       if (tally.hasOwnProperty(answer)) {
@@ -97,33 +99,20 @@ function pollResults(poll, req, res) {
         });
       }
   }
-  return templates.render('results', {
+  return templates.render('admin_results', {
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,
+    numVotes: numVotes,
     answers: resultTally
   }, req, res);
 }
 
-// Curry me!
-function vote(poll, req, res) {
-  // Vote in a poll from an IP
-  if (poll) {
-    poll.vote(uniqId(req, res),
-      (url.parse(req.url, true).query || {}).choice
-    );
-    return redirect(req, res, "poll");
-  } else {
-    return redirect(req, res, "nopoll");
-  }
-}
-
-
 exports.newPoll = newPoll;
 exports.setPoll = setPoll;
 exports.waitPoll = waitPoll;
-exports.pollResults = pollResults;
+exports.closePoll = closePoll;
+exports.results = results;
 exports.pickOne = pickOne;
-exports.vote = vote;

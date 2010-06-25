@@ -69,8 +69,8 @@ routes.addRoutes(
       'new': activePoll.curryGet(admin.newPoll),
       'set': activePoll.currySet(admin.setPoll),
       'wait': activePoll.curryGet(admin.waitPoll),
-      'close': null,
-      'results': null
+      'close': activePoll.curryGet(admin.closePoll),
+      'results': activePoll.curryGet(admin.results)
     },
 
     'api': switchboard.makeDispatchQueryOverloader(
