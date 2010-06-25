@@ -68,9 +68,25 @@ function curryRedirect(url) {
   };
 }
 
+function randChoice(arr) {
+  // Return something random out of us
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function buildUuid(size) {
+  // Builds a unique string of length size
+  var result = [];
+  for (var i=0; i<size; i++) {
+    result.push(randChoice("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ0123456789"));
+  }
+  return result.join("");
+}
+
+
 exports.renderJson       = renderJson;
 exports.curryJsonRender  = curryJsonRender;
 exports.booleanize       = booleanize;
 exports.curry            = curry;
 exports.redirect         = redirect;
 exports.curryRedirect    = curryRedirect;
+exports.buildUuid        = buildUuid;
