@@ -48,6 +48,7 @@ function viewPoll(poll, req, res) {
     return; //redirected
   }
   return templates.render('open_poll', {
+    title: "Voting on: " + poll.title,
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean
@@ -80,6 +81,7 @@ function pollResults(poll, req, res) {
       }
   }
   return templates.render('results', {
+    title: poll.title + " -- Results",
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean

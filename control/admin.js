@@ -13,6 +13,7 @@ function pickOne(poll, req, res) {
 // Curry me!
 function newPoll(poll, req, res) {
   return templates.render('admin_new', {
+    title: "Make a new poll",
     student: true,
     scripts: ["/js/student.js"]
   }, req, res);
@@ -49,6 +50,7 @@ function waitPoll(poll, req, res) {
       }
   }
   return templates.render('admin_wait', {
+    title: poll.title + " -- Waiting for votes",
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean
@@ -100,6 +102,7 @@ function results(poll, req, res) {
       }
   }
   return templates.render('admin_results', {
+    title: poll.title + " -- Results",
     student: true,
     scripts: ["/js/student.js"],
     //           !! casts to boolean
