@@ -3,12 +3,17 @@ var
   events = require('events'),
   assert = require('assert');
 
+// Poor man's logging. This should be done much better.
+var LOGGING = true,
+    log = LOGGING? sys.log : function(n){};
+
 function Poll(title, answers) {
   // This builds a poll.
   //
   // A poll is:
   //    A list of answers
   //    A list of votes that map keys (IP addresses? cookies?) to answers
+  log("New poll: " + title + " -- " + sys.inspect(answers));
   this.title = title;
   this.open = true;
   this.answers = answers;
@@ -24,6 +29,7 @@ Poll.prototype.vote = function(key, choice) {
   }
   this.votes[key] = choice;
   this.emit("vote", this, key, choice);
+  log(key + " just voted for " + choice);
   return true;
 };
 
@@ -43,6 +49,7 @@ Poll.prototype.toJson = function() {
 Poll.prototype.close = function() {
   this.open = false;
   this.emit("closed", this);
+  log("Poll closed: " + this.title);
   return true;
 };
 
