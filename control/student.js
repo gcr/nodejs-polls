@@ -52,6 +52,7 @@ function viewPoll(poll, req, res) {
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,
+    pollId: poll.uid,
     answers: poll.answers.map(function(q) {
       return {
         answer: q,
@@ -84,6 +85,7 @@ function pollResults(poll, req, res) {
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,
+    pollId: poll.uid,
     answers: resultTally
   }, req, res);
 }
