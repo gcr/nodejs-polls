@@ -3,24 +3,34 @@
 /*global polling: true, templates: true*/
 
 var student = (function($) {
+
+  var POLL_FREQUENCY = 1000;
+
   function getCurrentPage(wp) {
     if (wp.length) {
       return wp.pop() || getCurrentPage(wp);
     }
   }
   var currentPage = getCurrentPage(window.location.pathname.split("/"));
+  console.log(currentPage);
 
   var watchedPoll = new polling.Poll(
     function noPoll() {
-      console.log("No poll");
+      if (currentPage !== "nopoll") {
+        window.location = "/nopoll";
+      }
     },
 
     function closedPoll(poll) {
-      console.log("Closed poll");
+      if (currentPage !== "results") {
+        window.location = "/results";
+      }
     },
 
     function openPoll(poll) {
-      console.log("Open poll");
+      if (currentPage !== "poll") {
+        window.location = "/poll";
+      }
     }
   );
 
@@ -28,6 +38,8 @@ var student = (function($) {
   function poll() {
     watchedPoll.poll();
   }
+
+  setInterval(poll, POLL_FREQUENCY);
 
   return {
     poll: poll,
