@@ -5,10 +5,10 @@ Did I vote? {{clientVoted}}
 <ul>
 {{#answers}}
     {{#isMyVote}}
-        <li>voted: {{answer}} {{isMyVote}}</li>
+        <li>voted: {{answer}}</li>
     {{/isMyVote}}
     {{^isMyVote}}
-        <li><a href="{{url}}">{{answer}}</a> {{isMyVote}}</li>
+        <li><a href="{{url}}">{{answer}}</a></li>
     {{/isMyVote}}
 {{/answers}}
 </ul>

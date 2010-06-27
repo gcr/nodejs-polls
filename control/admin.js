@@ -14,8 +14,8 @@ function pickOne(poll, req, res) {
 function newPoll(poll, req, res) {
   return templates.render('admin_new', {
     title: "Make a new poll",
-    student: true,
-    scripts: ["/js/student.js"]
+    student: false
+    //scripts: ["/js/student.js"]
   }, req, res);
 }
 
@@ -51,8 +51,7 @@ function waitPoll(poll, req, res) {
   }
   return templates.render('admin_wait', {
     title: poll.title + " -- Waiting for votes",
-    student: true,
-    scripts: ["/js/student.js"],
+    student: false,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     numVotes: numVotes,
@@ -103,8 +102,7 @@ function results(poll, req, res) {
   }
   return templates.render('admin_results', {
     title: poll.title + " -- Results",
-    student: true,
-    scripts: ["/js/student.js"],
+    student: false,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,

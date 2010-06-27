@@ -36,8 +36,7 @@ function noPoll(poll, req, res) {
     return; //redirected
   }
   return templates.render('nopoll', {
-    student: true,
-    scripts: ["/js/student.js"]
+    student: true
   }, req, res);
 }
 
@@ -50,16 +49,15 @@ function viewPoll(poll, req, res) {
   return templates.render('open_poll', {
     title: "Voting on: " + poll.title,
     student: true,
-    scripts: ["/js/student.js"],
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,
     answers: poll.answers.map(function(q) {
-    return {
-      answer: q,
-      url: "/vote?choice=" + escape(q),
-      isMyVote: poll.myVote(uniqId(req, res)) == q};
-    })
+      return {
+        answer: q,
+        url: "/vote?choice=" + escape(q),
+        isMyVote: poll.myVote(uniqId(req, res)) == q};
+      })
   }, req, res);
 }
 
@@ -83,7 +81,6 @@ function pollResults(poll, req, res) {
   return templates.render('results', {
     title: poll.title + " -- Results",
     student: true,
-    scripts: ["/js/student.js"],
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,

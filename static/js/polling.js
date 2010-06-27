@@ -13,9 +13,8 @@ var polling = (function($) {
   }
 
   Poll.prototype.poll = function() {
-    // poll for polls! ha!
     var self = this;
-    $.getJSON("poll", {}, function(poll){
+    $.getJSON("api", {}, function(poll){
       if (poll=="no poll") {
         if (self.state!="nopoll") {
           self.state="nopoll";
