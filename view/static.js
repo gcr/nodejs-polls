@@ -175,6 +175,8 @@ function serveFile(webroot, urlPath, req, res) {
             var errtext = "Couldn't open file";
             res.writeHead(500, {"Content-Type": "text/plain; charset=utf-8",
                               'Cache-Control': 'no-cache, must-revalidate',
+                              'Expires': 'Mon, 20 Dec 1998 01:00:00 GMT',
+                              'Last-Modified': new Date().toUTCString(),
                               'Pragma': 'no-cache',
                               "Content-Length": errtext.length});
             res.end(errtext);

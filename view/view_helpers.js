@@ -17,10 +17,12 @@ function renderJson(req, res, obj, status) {
   } else {
     json = json + "\n";
   }
-  sys.log(json);
+  //sys.log(json);
   res.writeHead(status||200, {"Content-Type": "text/plain; charset=utf-8",
                                         // todo: change to text/json
                         'Cache-Control': 'no-cache, must-revalidate',
+                        'Expires': 'Mon, 20 Dec 1998 01:00:00 GMT',
+                        'Last-Modified': new Date().toUTCString(),
                         'Pragma': 'no-cache',
                         "Content-Length": json.length});
   res.end(json);
@@ -56,6 +58,8 @@ function redirect(req, res, url) {
   var body = '<!DOCTYPE HTML><html lang="en"><head><meta charset="UTF-8"><title>Redirect</title></head><body>Please see <a href="'+url+'">'+url+'</a></body></html>';
   res.writeHead(302, {"Location": url,
                       'Cache-Control': 'no-cache, must-revalidate',
+                      'Expires': 'Mon, 20 Dec 1998 01:00:00 GMT',
+                      'Last-Modified': new Date().toUTCString(),
                       'Pragma': 'no-cache',
                       "Content-Length": body.length});
   res.end(body);

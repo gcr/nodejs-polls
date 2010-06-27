@@ -49,6 +49,8 @@ function render(tplName, view_mixin, req, res) {
         res.writeHead(200, {"Content-Type": "text/html; charset=utf-8",
                                               // todo: change to text/json
                               'Cache-Control': 'no-cache, must-revalidate',
+                              'Expires': 'Mon, 20 Dec 1998 01:00:00 GMT',
+                              'Last-Modified': new Date().toUTCString(),
                               'Pragma': 'no-cache',
                               "Content-Length": text.length});
         res.end(text);
