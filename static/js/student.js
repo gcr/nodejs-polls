@@ -2,17 +2,22 @@
 //
 /*global polling: true, templates: true*/
 
-var student = (function($) {
-
-  var POLL_FREQUENCY = 1000;
+$(document).ready(function() {
 
   function getCurrentPage(wp) {
     if (wp.length) {
       return wp.pop() || getCurrentPage(wp);
     }
   }
-  var currentPage = getCurrentPage(window.location.pathname.split("/"));
-  console.log(currentPage);
+
+  var POLL_FREQUENCY=1000,
+      // Hacks, sorry
+      currentPage = getCurrentPage(window.location.pathname.split("/")),
+      pollId=0;
+
+  if (currentPage=="poll" || currentPage=="results") {
+    pollId = parseInt($("#pollId").text(),10);
+  }
 
   var watchedPoll = new polling.Poll(
     function noPoll() {
@@ -22,13 +27,13 @@ var student = (function($) {
     },
 
     function closedPoll(poll) {
-      if (currentPage !== "results") {
+      if (currentPage !== "results" || poll.uid != pollId) {
         window.location = "/results";
       }
     },
 
     function openPoll(poll) {
-      if (currentPage !== "poll") {
+      if (currentPage !== "poll" || poll.uid != pollId) {
         window.location = "/poll";
       }
     }
@@ -41,8 +46,4 @@ var student = (function($) {
 
   setInterval(poll, POLL_FREQUENCY);
 
-  return {
-    poll: poll,
-    watchedPoll: watchedPoll
-  };
-})(jQuery);
+});
