@@ -1,2 +1,22 @@
 <h1>Create a new poll</h1>
-TODO
+<form action="/admin/set" method="get">
+    {{%IMPLICIT-ITERATOR}}
+    {{#hasErrors}}
+    Uh oh! There were errors with that poll.
+    <ul>
+        {{#errors}}
+        <li>{{.}}</li>
+        {{/errors}}
+    </ul>
+    {{/hasErrors}}
+    Title:
+	<input id="" name="title" type="text" />
+
+    Answers:
+	<input id="" name="answers[]" type="text" />
+	<input id="" name="answers[]" type="text" />
+	<input id="" name="answers[]" type="text" />
+	<input id="" name="answers[]" type="text" />
+
+    <input type="submit" value="Ask" />
+</form>

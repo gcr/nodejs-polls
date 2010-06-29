@@ -11,10 +11,12 @@ function pickOne(poll, req, res) {
 }
 
 // Curry me!
-function newPoll(poll, req, res) {
+function newPoll(poll, req, res, errors) {
   return templates.render('admin_new', {
     title: "Make a new poll",
-    student: false
+    student: false,
+    errors: errors,
+    hasErrors: errors instanceof Array && errors.length
     //scripts: ["/js/student.js"]
   }, req, res);
 }
@@ -23,16 +25,23 @@ function newPoll(poll, req, res) {
 function setPoll(req, res) {
   var query = url.parse(req.url, true).query || {},
       title = query.title,
-      answers = query.answers;
-  if (!title) {
-    throw new Error("You must have a title");
+      answers = query.answers.filter(function(x) {
+          return typeof x == 'string' && x.length;
+        }),
+      errors = [];
+  if (typeof title != 'string' || title.length === 0) {
+    errors.push("You must set a title.");
   }
-  if (!answers || !answers.length) {
-    throw new Error("You must have one or more answers");
+  if (!answers instanceof Array || answers.length === 0) {
+    errors.push("You must have one or more answers.");
   }
-  var poll = new Poll.Poll(title, answers);
-  redirect(req, res, "/admin/wait");
-  return poll;
+  if (errors.length) {
+    return newPoll(null, req, res, errors);
+  } else {
+    var poll = new Poll.Poll(title, answers);
+    redirect(req, res, "/admin/wait");
+    return poll;
+  }
 }
 
 // Curry me!

@@ -1,12 +1,18 @@
 // Manages the active poll
 
 var sys = require('sys'),
+    assert = require('assert'),
     Poll = require('./../model/poll'),
     renderJson = require('./../view/view_helpers').renderJson,
     uniqId = require('./uid').uniqId,
     redirect = require('./../view/view_helpers').redirect;
 
 function set(req, res, ignore, title, answers) {
+  answers = answers.filter(function(x) {
+      return typeof x == 'string' && x.length;
+    });
+  assert.ok(typeof title == 'string' && title.length > 0, "You must set a title.");
+  assert.ok(answers instanceof Array && answers.length > 0, "You must have one or more answers.");
   var poll = new Poll.Poll(title, answers);
   renderJson(req, res, "success");
   return poll;
