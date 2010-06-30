@@ -25,8 +25,10 @@ function newPoll(poll, req, res, errors) {
 function setPoll(req, res) {
   var query = url.parse(req.url, true).query || {},
       title = query.title,
-      answers = query.answers.filter(function(x) {
-          return typeof x == 'string' && x.length;
+      answers = query.answers.map(function(x) {
+          return typeof x == 'string'? x.trim() : '';
+        }).filter(function(x) {
+          return x.length;
         }),
       errors = [];
   if (typeof title != 'string' || title.length === 0) {
