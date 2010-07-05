@@ -19,7 +19,7 @@ $(document).ready(function() {
     pollId = parseInt($("#pollId").text(),10);
   }
 
-  var watchedPoll = new polling.Poll(
+  var watchedPollState = new polling.PollState(
     function noPoll() {
       if (currentPage !== "nopoll") {
         window.location = "/nopoll";
@@ -41,7 +41,7 @@ $(document).ready(function() {
 
   ///////////////
   function poll() {
-    watchedPoll.poll();
+    watchedPollState.poll();
   }
 
   setInterval(poll, POLL_FREQUENCY);

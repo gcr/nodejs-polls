@@ -4,7 +4,8 @@
 
 var polling = (function($) {
 
-  function Poll(noPoll, closedPoll, openPoll) {
+  function PollState(noPoll, closedPoll, openPoll) {
+    // This ill-named class keeps track of the poll's state.
     this.state=null; // The state of the current poll
     this.uid=0;
     this.noPoll = noPoll;
@@ -12,7 +13,7 @@ var polling = (function($) {
     this.openPoll = openPoll;
   }
 
-  Poll.prototype.poll = function() {
+  PollState.prototype.poll = function() {
     var self = this;
     $.getJSON("api", {}, function(poll){
       if (poll=="no poll") {
@@ -36,7 +37,8 @@ var polling = (function($) {
     });
   };
 
+
   return {
-    Poll: Poll
+    PollState: PollState
   };
 })(jQuery);
