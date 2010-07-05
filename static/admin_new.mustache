@@ -9,14 +9,19 @@
         {{/errors}}
     </ul>
     {{/hasErrors}}
-    Title:
-	<input id="" name="title" type="text" />
 
-    Answers:
-	<input id="" name="answers[]" type="text" />
-	<input id="" name="answers[]" type="text" />
-	<input id="" name="answers[]" type="text" />
-	<input id="" name="answers[]" type="text" />
+    Saved polls:
+    <ul class="saved_polls">loading...</ul>
+
+    Title:<br />
+    <input id="" name="title" type="text" value="{{pollTitle}}"/>
+    <br />
+
+    Answers:<br />
+    {{#pollAnswers}}
+    <input id="" name="answers[]" type="text" value="{{.}}"/><br />
+    {{/pollAnswers}}
 
     <input type="submit" value="Ask" />
 </form>
+<a class="save_poll" href="#" />Save this poll for later</a>

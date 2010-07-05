@@ -12,12 +12,23 @@ function pickOne(poll, req, res) {
 
 // Curry me!
 function newPoll(poll, req, res, errors) {
+  var query = url.parse(req.url, true).query || {},
+      title = query.title || "",
+      answers = query.answers || [];
+  // Pre-fill answers
+  answers[0] = answers[0] || "Yes";
+  answers[1] = answers[1] || "No";
+  answers[2] = answers[2] || "";
+  answers[3] = answers[3] || "";
+
   return templates.render('admin_new', {
     title: "Make a new poll",
     student: false,
     errors: errors,
-    hasErrors: errors instanceof Array && errors.length
-    //scripts: ["/js/student.js"]
+    pollTitle: title,
+    pollAnswers: answers,
+    hasErrors: errors instanceof Array && errors.length,
+    scripts: ["/js/admin_new.js"]
   }, req, res);
 }
 
@@ -67,6 +78,7 @@ function waitPoll(poll, req, res) {
     clientVoted: !!poll.myVote(uniqId(req, res)),
     numVotes: numVotes,
     pollTitle: poll.title,
+    scripts: ["/js/admin.js"],
     answers: poll.answers.map(function(q) {
     return {
       answer: q,
@@ -118,7 +130,8 @@ function results(poll, req, res) {
     clientVoted: !!poll.myVote(uniqId(req, res)),
     pollTitle: poll.title,
     numVotes: numVotes,
-    answers: resultTally
+    answers: resultTally,
+    scripts: ["/js/admin.js"]
   }, req, res);
 }
 

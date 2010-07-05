@@ -17,6 +17,17 @@ function del(plist, req, res, n) {
 
 // Please curry me!
 function add(plist, req, res, ignore, title, answers) {
+  answers = answers.map(function(x) {
+      return typeof x == 'string'? x.trim() : '';
+    }).filter(function(x) {
+      return x.length;
+    });
+  if (typeof title != 'string' || title.length === 0) {
+    return renderJson(req, res, "You must set a title.");
+  }
+  if (!answers instanceof Array || answers.length === 0) {
+    return renderJson(req, res, "You must have one or more answers.");
+  }
   if (plist && typeof title == 'string' && answers instanceof Array) {
     renderJson(req, res, plist.add(title, answers)?"success":"fail");
     plist.commit();
