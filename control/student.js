@@ -101,6 +101,8 @@ function vote(poll, req, res) {
     );
     return redirect(req, res, "poll");
   } else {
+    // For students, if they have no cookie, they're probably very old. Send 'em
+    // back.
     return redirect(req, res, "nopoll");
   }
 }

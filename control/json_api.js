@@ -18,7 +18,10 @@ function close(poll, req, res) {
 // Curry me!
 function vote(poll, req, res, choice) {
   // Vote in a poll from an IP
-  if (poll && uid.hasId(req, res)) {
+  if (!uid.hasId(req, res)) {
+    return renderJson(req, res, "Me want cookie!");
+  }
+  if (poll) {
     return renderJson(req, res, poll.vote(uid.uniqId(req, res), choice)?"success":"fail");
   } else {
     return renderJson(req, res, "no poll");
