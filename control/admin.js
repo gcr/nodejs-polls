@@ -3,7 +3,7 @@
 var templates = require('../view/templating'),
     Poll = require('../model/poll'),
     redirect = require('../view/view_helpers').redirect,
-    uniqId = require('./uid').uniqId,
+    uid = require('./uid'),
     url = require('url');
 
 function pickOne(poll, req, res) {
@@ -75,7 +75,7 @@ function waitPoll(poll, req, res) {
     title: poll.title + " -- Waiting for votes",
     student: false,
     //           !! casts to boolean
-    clientVoted: !!poll.myVote(uniqId(req, res)),
+    clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     numVotes: numVotes,
     pollTitle: poll.title,
     scripts: ["/js/admin.js"],
@@ -83,7 +83,7 @@ function waitPoll(poll, req, res) {
     return {
       answer: q,
       url: "/vote?choice=" + escape(q),
-      isMyVote: poll.myVote(uniqId(req, res)) == q};
+      isMyVote: poll.myVote(uid.uniqId(req, res)) == q};
     })
   }, req, res);
 }
@@ -119,7 +119,7 @@ function results(poll, req, res) {
         resultTally.push({
           answer: answer,
           votes: tally[answer],
-          isMyVote: poll.myVote(uniqId(req, res))==answer
+          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
         });
       }
   }
@@ -127,7 +127,7 @@ function results(poll, req, res) {
     title: poll.title + " -- Results",
     student: false,
     //           !! casts to boolean
-    clientVoted: !!poll.myVote(uniqId(req, res)),
+    clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
     numVotes: numVotes,
     answers: resultTally,

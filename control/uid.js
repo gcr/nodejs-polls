@@ -4,6 +4,12 @@ var cookie = require('../view/cookie-node/'), // HAS SIDE-EFFECTS: tampers with 
     buildUuid = require('../view/view_helpers').buildUuid,
     sys = require('sys');
 
+function hasId(req, res) {
+  // Returns true if the client actually has a cookie set. This is to protect
+  // against users who obviously don't use cookies from voting twice.
+  return req.getCookie('uid').length > 0;
+}
+
 function uniqId(req, res) {
   // Gets or sets a unique ID for the user.
   // Side effects: sets a cookie if the user doesn't already have an ID.
@@ -14,8 +20,9 @@ function uniqId(req, res) {
     sys.log("New user with IP " + (req.headers['x-forwarded-for']||req.connection.remoteAddress) + " has new cookie " + id);
 
     // Bad form, but we need to set the cookie in the *request* also, as this
-    // function may be called multiple times per page, but getCookie won't be
-    // seen.
+    // function may be called multiple times per page, but getCookie won't
+    // change when we assign the ID. (This may break on future versions of
+    // cookie-node)
     req.cookies.uid = id;
   }
   // Some sneakster *could* set his cookie to somebody else's, so we'll
@@ -24,3 +31,5 @@ function uniqId(req, res) {
 }
 
 exports.uniqId = uniqId;
+// This function has the side effect of setting the cookie if it does not exist.
+exports.verifyUidExists = uniqId;

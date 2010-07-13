@@ -4,10 +4,11 @@ var sys = require('sys'),
     assert = require('assert'),
     Poll = require('./../model/poll'),
     renderJson = require('./../view/view_helpers').renderJson,
-    uniqId = require('./uid').uniqId,
+    uid = require('./uid'),
     redirect = require('./../view/view_helpers').redirect;
 
 function set(req, res, ignore, title, answers) {
+  uid.verifyUidExists(req, res);
   answers = answers.filter(function(x) {
       return typeof x == 'string' && x.length;
     });
@@ -19,9 +20,10 @@ function set(req, res, ignore, title, answers) {
 }
 
 function renderStatus(poll, req, res) {
+  uid.verifyUidExists(req, res);
   if (poll) {
     var result = poll.toJson();
-    result.my_vote = poll.myVote(uniqId(req, res)) || false;
+    result.my_vote = poll.myVote(uid.uniqId(req, res)) || false;
     return renderJson(req, res, result);
   }
   return renderJson(req, res, "no poll");

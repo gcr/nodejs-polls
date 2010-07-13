@@ -1,9 +1,10 @@
 // Handles voting from IP addresses
 var renderJson = require('./../view/view_helpers').renderJson,
-    uniqId = require('./uid').uniqId;
+    uid = require('./uid');
 
 // Curry me!
 function close(poll, req, res) {
+  uid.verifyUidExists(req, res);
   // Close the current poll
   if (poll) {
     return renderJson(req, res, poll.close()?"success":"fail");
@@ -15,8 +16,8 @@ function close(poll, req, res) {
 // Curry me!
 function vote(poll, req, res, choice) {
   // Vote in a poll from an IP
-  if (poll) {
-    return renderJson(req, res, poll.vote(uniqId(req, res), choice)?"success":"fail");
+  if (poll && uid.hasId(req, res)) {
+    return renderJson(req, res, poll.vote(uid.uniqId(req, res), choice)?"success":"fail");
   } else {
     return renderJson(req, res, "no poll");
   }

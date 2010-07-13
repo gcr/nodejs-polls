@@ -2,14 +2,16 @@
 /*global escape: true */
 var templates = require('../view/templating'),
     redirect = require('../view/view_helpers').redirect,
-    uniqId = require('./uid').uniqId,
+    uid = require('./uid'),
     url = require('url');
 
 function thisIs(req, res, poll, urlname) {
   // This function directs the student to the correct URL based on a hardcoded
   // set of conditions. Returns 'true' if this is the correct URL, or 'false'
   // if the client was redirected.
-  // Side effects: redirects client if needed.
+  // Side effects: redirects client if needed and sets or creates the UID cookie
+  // so we can protect against duplicate votes.
+  uid.verifyUidExists(req, res);
   if (poll) {
     if (poll.open) {
       // Open, existing poll
@@ -50,14 +52,14 @@ function viewPoll(poll, req, res) {
     title: "Voting on: " + poll.title,
     student: true,
     //           !! casts to boolean
-    clientVoted: !!poll.myVote(uniqId(req, res)),
+    clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
     pollId: poll.uid,
     answers: poll.answers.map(function(q) {
       return {
         answer: q,
         url: "/vote?choice=" + escape(q),
-        isMyVote: poll.myVote(uniqId(req, res)) == q};
+        isMyVote: poll.myVote(uid.uniqId(req, res)) == q};
       })
   }, req, res);
 }
@@ -75,7 +77,7 @@ function pollResults(poll, req, res) {
         resultTally.push({
           answer: answer,
           votes: tally[answer],
-          isMyVote: poll.myVote(uniqId(req, res))==answer
+          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
         });
       }
   }
@@ -83,7 +85,7 @@ function pollResults(poll, req, res) {
     title: poll.title + " -- Results",
     student: true,
     //           !! casts to boolean
-    clientVoted: !!poll.myVote(uniqId(req, res)),
+    clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
     pollId: poll.uid,
     answers: resultTally
@@ -92,9 +94,9 @@ function pollResults(poll, req, res) {
 
 // Curry me!
 function vote(poll, req, res) {
-  // Vote in a poll from an IP
-  if (poll) {
-    poll.vote(uniqId(req, res),
+  // Vote in a poll. A unique cookie is used for verification.
+  if (poll && uid.hasId(req, res)) {
+    poll.vote(uid.uniqId(req, res),
       (url.parse(req.url, true).query || {}).choice
     );
     return redirect(req, res, "poll");
