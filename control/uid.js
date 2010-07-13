@@ -16,7 +16,7 @@ function uniqId(req, res) {
   var id = req.getCookie('uid');
   if (!id) {
     id = buildUuid(15);
-    res.setCookie('uid', id);
+    res.setCookie('uid', id, {expires: new Date( +new Date() + 30 * 24 * 60 * 60 * 1000 )});
     sys.log("New user with IP " + (req.headers['x-forwarded-for']||req.connection.remoteAddress) + " has new cookie " + id);
 
     // Bad form, but we need to set the cookie in the *request* also, as this
