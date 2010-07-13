@@ -25,7 +25,7 @@ function vote(poll, req, res, choice) {
   }
 }
 
-function set(req, res, ignore, title, answers) {
+function set(req, res, title, answers) {
   uid.pokeUid(req, res);
   answers = answers.filter(function(x) {
       return typeof x == 'string' && x.length;

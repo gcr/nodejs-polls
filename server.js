@@ -72,16 +72,19 @@ routes.addRoutes(
       'results': activePoll.curryGet(admin.results)
     },
 
-    'api': switchboard.makeDispatchQueryOverloader(
-      ['vote'],
-      activePoll.curryGet(jsonAPI.vote),
-      ['close'],
-      activePoll.curryGet(jsonAPI.close),
-      ['set', 'title', 'answers'],
-      activePoll.currySet(jsonAPI.set),
-      [],
-      activePoll.curryGet(jsonAPI.renderStatus)
-    ),
+    'api': {
+      'vote': switchboard.makeDispatchQueryOverloader(
+          ['choice'],
+          activePoll.curryGet(jsonAPI.vote)
+        ),
+      'set': switchboard.makeDispatchQueryOverloader(
+          ['title', 'answers'],
+          activePoll.currySet(jsonAPI.set)
+        ),
+      'close':  activePoll.curryGet(jsonAPI.close),
+      'list':   activePoll.curryGet(jsonAPI.renderStatus),
+      '':       activePoll.curryGet(jsonAPI.renderStatus)
+    },
 
     'list': switchboard.makeDispatchQueryOverloader(
       ['get'],
