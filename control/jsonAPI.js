@@ -1,11 +1,29 @@
-// Manages the active poll
-
-var sys = require('sys'),
-    assert = require('assert'),
-    Poll = require('./../model/poll'),
-    renderJson = require('./../view/view_helpers').renderJson,
+// Handles voting from IP addresses
+var renderJson = require('./../view/view_helpers').renderJson,
     uid = require('./uid'),
-    redirect = require('./../view/view_helpers').redirect;
+    Poll = require('./../model/poll'),
+    assert = require('assert');
+
+// Curry me!
+function close(poll, req, res) {
+  uid.verifyUidExists(req, res);
+  // Close the current poll
+  if (poll) {
+    return renderJson(req, res, poll.close()?"success":"fail");
+  } else {
+    return renderJson(req, res, "no poll");
+  }
+}
+
+// Curry me!
+function vote(poll, req, res, choice) {
+  // Vote in a poll from an IP
+  if (poll && uid.hasId(req, res)) {
+    return renderJson(req, res, poll.vote(uid.uniqId(req, res), choice)?"success":"fail");
+  } else {
+    return renderJson(req, res, "no poll");
+  }
+}
 
 function set(req, res, ignore, title, answers) {
   uid.verifyUidExists(req, res);
@@ -29,5 +47,7 @@ function renderStatus(poll, req, res) {
   return renderJson(req, res, "no poll");
 }
 
+exports.vote = vote;
+exports.close = close;
 exports.set = set;
 exports.renderStatus = renderStatus;

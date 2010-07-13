@@ -11,8 +11,7 @@ var
 // Controllers
   student       = require('./control/student'),
   admin         = require('./control/admin'),
-  voting        = require('./control/voting'),
-  poll          = require('./control/poll'),
+  jsonAPI       = require('./control/json_api'),
   pollListCtl   = require('./control/poll_list'),
 // Models
   pl            = require('./model/poll_list'),
@@ -75,13 +74,13 @@ routes.addRoutes(
 
     'api': switchboard.makeDispatchQueryOverloader(
       ['vote'],
-      activePoll.curryGet(voting.vote),
+      activePoll.curryGet(jsonAPI.vote),
       ['close'],
-      activePoll.curryGet(voting.close),
+      activePoll.curryGet(jsonAPI.close),
       ['set', 'title', 'answers'],
-      activePoll.currySet(poll.set),
+      activePoll.currySet(jsonAPI.set),
       [],
-      activePoll.curryGet(poll.renderStatus)
+      activePoll.curryGet(jsonAPI.renderStatus)
     ),
 
     'list': switchboard.makeDispatchQueryOverloader(
