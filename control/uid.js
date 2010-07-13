@@ -7,7 +7,7 @@ var cookie = require('../view/cookie-node/'), // HAS SIDE-EFFECTS: tampers with 
 function hasId(req, res) {
   // Returns true if the client actually has a cookie set. This is to protect
   // against users who obviously don't use cookies from voting twice.
-  return req.getCookie('uid').length > 0;
+  return (typeof req.getCookie('uid') == 'string' && req.getCookie('uid').length > 0);
 }
 
 function uniqId(req, res) {
@@ -31,5 +31,6 @@ function uniqId(req, res) {
 }
 
 exports.uniqId = uniqId;
+exports.hasId = hasId;
 // This function has the side effect of setting the cookie if it does not exist.
 exports.verifyUidExists = uniqId;
