@@ -6,7 +6,7 @@ var renderJson = require('./../view/view_helpers').renderJson,
 
 // Curry me!
 function close(poll, req, res) {
-  uid.verifyUidExists(req, res);
+  uid.pokeUid(req, res);
   // Close the current poll
   if (poll) {
     return renderJson(req, res, poll.close()?"success":"fail");
@@ -26,7 +26,7 @@ function vote(poll, req, res, choice) {
 }
 
 function set(req, res, ignore, title, answers) {
-  uid.verifyUidExists(req, res);
+  uid.pokeUid(req, res);
   answers = answers.filter(function(x) {
       return typeof x == 'string' && x.length;
     });
@@ -38,7 +38,7 @@ function set(req, res, ignore, title, answers) {
 }
 
 function renderStatus(poll, req, res) {
-  uid.verifyUidExists(req, res);
+  uid.pokeUid(req, res);
   if (poll) {
     var result = poll.toJson();
     result.my_vote = poll.myVote(uid.uniqId(req, res)) || false;

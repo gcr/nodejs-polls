@@ -33,4 +33,4 @@ function uniqId(req, res) {
 exports.uniqId = uniqId;
 exports.hasId = hasId;
 // This function has the side effect of setting the cookie if it does not exist.
-exports.verifyUidExists = uniqId;
+exports.pokeUid = uniqId;

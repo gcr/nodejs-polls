@@ -11,7 +11,7 @@ function thisIs(req, res, poll, urlname) {
   // if the client was redirected.
   // Side effects: redirects client if needed and sets or creates the UID cookie
   // so we can protect against duplicate votes.
-  uid.verifyUidExists(req, res);
+  uid.pokeUid(req, res);
   if (poll) {
     if (poll.open) {
       // Open, existing poll
