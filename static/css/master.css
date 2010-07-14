@@ -1,3 +1,12 @@
+body {
+    font-family: "Futura Medium", "Century Gothic", "AppleGothic", sans-serif;
+    text-align: center;
+}
+
 .hidden {
     display: none;
+}
+
+h1 {
+    border-bottom: .2em solid #260;
 }
