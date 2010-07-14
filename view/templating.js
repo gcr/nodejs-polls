@@ -3,14 +3,14 @@
 var Mustache = require('./mustache'),
     fs = require('fs'),
     sys = require('sys'),
-    CACHE_TIMEOUT = 1000 * 60 * 10;
+    CACHE_TIMEOUT = 1000 * 60 * 20; // 20min
 
 var cached = {},
     timers = {};
 
 function loadCached(tplName, cb) {
   function expire() {
-    sys.log("Expiring " + tplName + " from cache...");
+    sys.log("Expiring '" + tplName + "' from template cache...");
     delete cached[tplName];
     delete timers[tplName];
   }
