@@ -1,12 +1,56 @@
 body {
     font-family: "Futura Medium", "Century Gothic", "AppleGothic", sans-serif;
-    text-align: center;
 }
 
 .hidden {
     display: none;
 }
 
+.hcenter {
+    width: 60%;
+    margin: 0px auto;
+}
+
+a {
+    color: #260;
+}
+
 h1 {
+    text-align: center;
     border-bottom: .2em solid #260;
+}
+
+.choices { /* a ul */
+    position: relative;
+    margin: 0px auto;
+    width: 60%;
+    font-size: 125%;
+    list-style-type: none;
+    padding: 15px;
+}
+.choices a {
+    text-decoration: none;
+    display: block;
+    padding: .5em;
+    /* don't know why, but firefox seems to make it wider when a is display:block */
+}
+.choices li { /* Each choice */
+    display: block; /* need this or the <a> is too wide */
+    padding: 0px;
+    margin-bottom: 1em;
+}
+.choices li.unchosen {
+    background-color: #efd;
+    border: 1px solid #260;
+}
+.choices a:active {
+    font-weight: bold;
+    background-color: #dec;
+}
+.choices li.chosen {
+    font-weight: bold;
+    background-color: #fed;
+    color: #620;
+    border: 2px solid #620;
+    padding: .5em;
 }

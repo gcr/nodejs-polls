@@ -1,16 +1,18 @@
-<h1>Open poll: {{pollTitle}}</h1>
+<h1>{{pollTitle}}</h1>
 
-Did I vote? {{clientVoted}}
+<!-- Did I vote? {{clientVoted}} -->
 
-<ul>
+<ul class="choices">
 {{#answers}}
     {{#isMyVote}}
-        <li>voted: {{answer}}</li>
+        <li class="chosen">&#187; {{answer}}</li>
     {{/isMyVote}}
     {{^isMyVote}}
-        <li><a href="{{url}}">{{answer}}</a></li>
+        <li class="unchosen"><a href="{{url}}">{{answer}}</a></li>
     {{/isMyVote}}
 {{/answers}}
 </ul>
+
+<div class="hcenter">Your teacher will close this poll in a moment.</div>
 
 <div class="hidden">Poll ID: <span id="pollId">{{pollId}}</span></div>
