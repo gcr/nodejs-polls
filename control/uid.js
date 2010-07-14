@@ -13,11 +13,15 @@ function hasId(req, res) {
 function uniqId(req, res) {
   // Gets or sets a unique ID for the user.
   // Side effects: sets a cookie if the user doesn't already have an ID.
-  var id = req.getCookie('uid');
+  var id = req.getCookie('uid'),
+      ip = req.headers['x-forwarded-for']||req.connection.remoteAddress;
   if (!id) {
     id = buildUuid(15);
     res.setCookie('uid', id, {expires: new Date( +new Date() + 30 * 24 * 60 * 60 * 1000 )});
-    sys.log("New user with IP " + (req.headers['x-forwarded-for']||req.connection.remoteAddress) + " has new cookie " + id);
+    // TODO: get a log framework
+    if (ip != "127.0.0.1") {
+      sys.log("New user with IP " + ip + " has new cookie " + id);
+    }
 
     // Bad form, but we need to set the cookie in the *request* also, as this
     // function may be called multiple times per page, but getCookie won't
@@ -27,7 +31,7 @@ function uniqId(req, res) {
   }
   // Some sneakster *could* set his cookie to somebody else's, so we'll
   // concatenate his IP to the cookie just in case.
-  return id + (req.headers['x-forwarded-for']||req.connection.remoteAddress);
+  return id + ip;
 }
 
 exports.uniqId = uniqId;
