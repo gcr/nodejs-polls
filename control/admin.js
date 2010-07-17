@@ -106,31 +106,22 @@ function results(poll, req, res) {
   if (poll.open) {
     return redirect(req, res, "/admin/wait"); //redirected
   }
-  // map answers to both text and whether that's my vote or not.
-  var numVotes = 0;
-  for (var k in poll.votes) {
-      if (poll.votes.hasOwnProperty(k)) {
-        numVotes++;
-      }
-  }
-  var tally = poll.tally(), resultTally = [];
-  for (var answer in tally) {
-      if (tally.hasOwnProperty(answer)) {
-        resultTally.push({
-          answer: answer,
-          votes: tally[answer],
-          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
-        });
-      }
-  }
   return templates.render('admin_results', {
     title: poll.title + " -- Results",
     student: false,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
-    numVotes: numVotes,
-    answers: resultTally,
+    numVotes: poll.numVotes(),
+    answers: poll.tally().map(function(x){
+        var answer=x[0], votes=x[1];
+        return {
+          answer: answer,
+          percent: poll.numVotes()===0?"0%":((votes/poll.numVotes()*100)+"%"),
+          votes: votes,
+          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
+        };
+      }),
     scripts: ["/js/admin.js"]
   }, req, res);
 }

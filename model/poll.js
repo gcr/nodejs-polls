@@ -63,7 +63,10 @@ Poll.prototype.tally = function() {
       result[this.votes[key]] = result[this.votes[key]]+1;
     }
   }
-  return result;
+  // Now we need to sort things correctly.
+  return this.answers.map(function(answer) {
+      return [answer, result[answer]];
+    });
 };
 
 Poll.prototype.myVote = function(key) {

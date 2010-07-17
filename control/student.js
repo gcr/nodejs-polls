@@ -70,19 +70,6 @@ function pollResults(poll, req, res) {
   if (!thisIs(req, res, poll, 'results')) {
     return; //redirected
   }
-  // map answers to both text and whether that's my vote or not.
-  var tally = poll.tally(), resultTally = [];
-  for (var answer in tally) {
-      if (tally.hasOwnProperty(answer)) {
-        resultTally.push({
-          scripts: ['/js/student.js'],
-          answer: answer,
-          percent: poll.numVotes()===0?"0%":((tally[answer]/poll.numVotes()*100)+"%"),
-          votes: tally[answer],
-          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
-        });
-      }
-  }
   return templates.render('results', {
     title: poll.title + " -- Results",
     scripts: ['/js/student.js'],
@@ -90,7 +77,15 @@ function pollResults(poll, req, res) {
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
     pollId: poll.uid,
-    answers: resultTally,
+    answers: poll.tally().map(function(x){
+        var answer=x[0], votes=x[1];
+        return {
+          answer: answer,
+          percent: poll.numVotes()===0?"0%":((votes/poll.numVotes()*100)+"%"),
+          votes: votes,
+          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
+        };
+      }),
     numVotes: poll.numVotes()
   }, req, res);
 }
