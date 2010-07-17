@@ -1,10 +1,17 @@
-<h1>Closed poll: {{pollTitle}}</h1>
+<h1>Results: {{pollTitle}}</h1>
 
-Did I vote? {{clientVoted}}
+{{^clientVoted}}
+You did not vote.
+{{/clientVoted}}
 
-<ul>
+<ul class="hcenter results">
 {{#answers}}
-<li>{{answer}} had {{votes}} votes. Mine? {{isMyVote}}</li>
+    <li>
+        <div class="pbar {{#isMyVote}}mine{{/isMyVote}}">
+            <div class="bar" style="width: {{percent}};">&nbsp;</div>
+            <div class="outerlabel">{{answer}} ({{votes}} votes)</div>
+        </div>
+    </li>
 {{/answers}}
 </ul>
 

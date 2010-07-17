@@ -38,7 +38,7 @@ function noPoll(poll, req, res) {
     return; //redirected
   }
   return templates.render('nopoll', {
-    student: true
+    scripts: ['/js/student.js']
   }, req, res);
 }
 
@@ -53,6 +53,7 @@ function viewPoll(poll, req, res) {
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
+    scripts: ['/js/student.js'],
     pollId: poll.uid,
     answers: poll.answers.map(function(q) {
       return {
@@ -74,8 +75,9 @@ function pollResults(poll, req, res) {
   for (var answer in tally) {
       if (tally.hasOwnProperty(answer)) {
         resultTally.push({
+          scripts: ['/js/student.js'],
           answer: answer,
-          percent: poll.numVotes()===0?"0%":(tally[answer]/poll.numVotes()*100)+"%",
+          percent: poll.numVotes()===0?"0%":((tally[answer]/poll.numVotes()*100)+"%"),
           votes: tally[answer],
           isMyVote: poll.myVote(uid.uniqId(req, res))==answer
         });
@@ -83,6 +85,7 @@ function pollResults(poll, req, res) {
   }
   return templates.render('results', {
     title: poll.title + " -- Results",
+    scripts: ['/js/student.js'],
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,

@@ -56,3 +56,28 @@ h1 {
 }
 
 /* Progress bars / results */
+.results {
+    margin: 0px auto;
+    width: 60%;
+    font-size: 125%;
+    list-style-type: none;
+    padding: 15px;
+}
+.results .pbar {
+    border: solid 1px #260;
+    color: #040;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1em;
+}
+.results .pbar .bar {
+    background: #efd;
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+}
+.results .pbar .outerlabel {
+    /* outer label */
+    position: relative;
+    margin: .5em;
+}
