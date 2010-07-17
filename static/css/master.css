@@ -1,25 +1,25 @@
+/* Layout */
 body {
     font-family: "Futura Medium", "Century Gothic", "AppleGothic", sans-serif;
 }
-
 .hidden {
     display: none;
 }
-
 .hcenter {
     width: 60%;
     margin: 0px auto;
 }
 
+/* Style */
 a {
     color: #260;
 }
-
 h1 {
     text-align: center;
     border-bottom: .2em solid #260;
 }
 
+/* Voting */
 .choices { /* a ul */
     position: relative;
     margin: 0px auto;
@@ -54,3 +54,5 @@ h1 {
     border: 2px solid #620;
     padding: .5em;
 }
+
+/* Progress bars / results */

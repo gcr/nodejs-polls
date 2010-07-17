@@ -70,4 +70,14 @@ Poll.prototype.myVote = function(key) {
   return this.votes[key];
 };
 
+Poll.prototype.numVotes = function() {
+  var count=0;
+  for (var k in this.votes) {
+    if (this.votes.hasOwnProperty(k)) {
+      count++;
+    }
+  }
+  return count;
+};
+
 exports.Poll = Poll;

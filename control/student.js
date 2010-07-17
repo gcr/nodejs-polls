@@ -50,7 +50,6 @@ function viewPoll(poll, req, res) {
   }
   return templates.render('open_poll', {
     title: "Voting on: " + poll.title,
-    student: true,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
@@ -76,6 +75,7 @@ function pollResults(poll, req, res) {
       if (tally.hasOwnProperty(answer)) {
         resultTally.push({
           answer: answer,
+          percent: poll.numVotes()===0?"0%":(tally[answer]/poll.numVotes()*100)+"%",
           votes: tally[answer],
           isMyVote: poll.myVote(uid.uniqId(req, res))==answer
         });
@@ -83,12 +83,12 @@ function pollResults(poll, req, res) {
   }
   return templates.render('results', {
     title: poll.title + " -- Results",
-    student: true,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
     pollId: poll.uid,
-    answers: resultTally
+    answers: resultTally,
+    numVotes: poll.numVotes()
   }, req, res);
 }
 
