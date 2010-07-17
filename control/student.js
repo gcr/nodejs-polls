@@ -83,10 +83,12 @@ function pollResults(poll, req, res) {
           answer: answer,
           percent: poll.numVotes()===0?"0%":((votes/poll.numVotes()*100)+"%"),
           votes: votes,
+          plural: votes===1?"":"s",
           isMyVote: poll.myVote(uid.uniqId(req, res))==answer
         };
       }),
-    numVotes: poll.numVotes()
+    numVotes: poll.numVotes(),
+    plural: poll.numVotes()===1?"":"s"
   }, req, res);
 }
 

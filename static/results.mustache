@@ -1,18 +1,23 @@
 <h1>Results: {{pollTitle}}</h1>
 
+<div class="hcenter">
 {{^clientVoted}}
 You did not vote.
 {{/clientVoted}}
 
-<ul class="hcenter results">
+<ul class="results">
 {{#answers}}
     <li>
         <div class="pbar {{#isMyVote}}mine{{/isMyVote}}">
             <div class="bar" style="width: {{percent}};">&nbsp;</div>
-            <div class="outerlabel">{{answer}} ({{votes}} votes)</div>
+            <div class="outerlabel"><span class="numvotes">{{votes}}</span>
+vote{{plural}}: {{answer}}</div>
         </div>
     </li>
 {{/answers}}
 </ul>
+
+Total: <span class="numvotes">{{numVotes}}</span> vote{{plural}}
+</div>
 
 <div class="hidden">Poll ID: <span id="pollId">{{pollId}}</span></div>

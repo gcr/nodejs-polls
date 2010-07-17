@@ -58,7 +58,7 @@ h1 {
 /* Progress bars / results */
 .results {
     margin: 0px auto;
-    width: 60%;
+    /*width: 60%;*/
     font-size: 125%;
     list-style-type: none;
     padding: 15px;
@@ -70,8 +70,11 @@ h1 {
     position: relative;
     margin-bottom: 1em;
 }
+.results .pbar.mine {
+    border: solid 2px #260;
+}
 .results .pbar .bar {
-    background: #efd;
+    background: #cfb;
     position: absolute;
     height: 100%;
     overflow: hidden;
@@ -80,4 +83,9 @@ h1 {
     /* outer label */
     position: relative;
     margin: .5em;
+}
+
+.numvotes {
+    font-weight: bold;
+    font-size: 125%;
 }
