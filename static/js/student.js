@@ -1,6 +1,6 @@
 // Client functions
 //
-/*global polling: true, templates: true*/
+/*global polling: true*/
 
 $(document).ready(function() {
 
@@ -10,7 +10,7 @@ $(document).ready(function() {
     }
   }
 
-  var POLL_FREQUENCY=1000,
+  var POLL_FREQUENCY=1000, // change in admin_wait.js too
       // Hacks, sorry
       currentPage = getCurrentPage(window.location.pathname.split("/")),
       pollId=0; // pollId is used to verify that the poll didn't change.
@@ -24,6 +24,7 @@ $(document).ready(function() {
   }
 
   var watchedPollState = new polling.PollState(
+    pollId,
     function noPoll() {
       if (currentPage !== "nopoll") {
         window.location = "/nopoll";

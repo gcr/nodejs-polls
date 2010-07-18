@@ -4,10 +4,10 @@
 
 var polling = (function($) {
 
-  function PollState(noPoll, closedPoll, openPoll) {
+  function PollState(uid, noPoll, closedPoll, openPoll) {
     // This ill-named class keeps track of the poll's state.
     this.state=null; // The state of the current poll
-    this.uid=0;
+    this.uid=uid;
     this.noPoll = noPoll;
     this.closedPoll = closedPoll;
     this.openPoll = openPoll;
@@ -23,13 +23,11 @@ var polling = (function($) {
         }
       } else if (!poll.open) {
         if (self.state!="closed"||self.uid!=poll.uid) {
-          self.uid=poll.uid;
           self.state="closed";
           if (typeof self.closedPoll == "function") {self.closedPoll(poll);}
         }
       } else {
         if (self.state!="open"||poll.uid!=self.uid) {
-          self.uid=poll.uid;
           self.state="open";
           if (typeof self.openPoll == "function") {self.openPoll(poll);}
         }

@@ -42,7 +42,8 @@ Poll.prototype.toJson = function() {
     'title': this.title,
     'open': this.open,
     'uid': this.uid,
-    'votes': this.tally()
+    'votes': this.tally(),
+    'numVotes': this.numVotes()
   };
 };
 

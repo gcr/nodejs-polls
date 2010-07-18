@@ -64,25 +64,20 @@ function waitPoll(poll, req, res) {
   } else if (!poll.open) {
     return redirect(req, res, "/admin/results"); //redirected
   }
-  var numVotes = 0;
-  for (var k in poll.votes) {
-      if (poll.votes.hasOwnProperty(k)) {
-        numVotes++;
-      }
-  }
   return templates.render('admin_wait', {
     title: poll.title + " -- Waiting for votes",
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
-    numVotes: numVotes,
+    numVotes: poll.numVotes(),
+    plural: (poll.numVotes()==1?"":"s"),
     pollTitle: poll.title,
-    scripts: ["/js/admin.js"],
     answers: poll.answers.map(function(q) {
     return {
       answer: q,
       url: "/vote?choice=" + escape(q),
       isMyVote: poll.myVote(uid.uniqId(req, res)) == q};
-    })
+    }),
+    scripts: ['/js/admin_wait.js']
   }, req, res);
 }
 
@@ -118,8 +113,7 @@ function results(poll, req, res) {
           votes: votes,
           isMyVote: poll.myVote(uid.uniqId(req, res))==answer
         };
-      }),
-    scripts: ["/js/admin.js"]
+      })
   }, req, res);
 }
 
