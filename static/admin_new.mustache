@@ -1,27 +1,32 @@
 <h1>Create a new poll</h1>
-<form action="/admin/set" method="get">
-    {{%IMPLICIT-ITERATOR}}
-    {{#hasErrors}}
-    Uh oh! There were errors with that poll.
-    <ul>
-        {{#errors}}
-        <li>{{.}}</li>
-        {{/errors}}
-    </ul>
-    {{/hasErrors}}
+<div class="hcenter">
+    <center>
+        <form action="/admin/set" method="get">
+            {{%IMPLICIT-ITERATOR}}
+            {{#hasErrors}}
+            Uh oh! There were errors with that poll.
+            <ul>
+                {{#errors}}
+                <li>{{.}}</li>
+                {{/errors}}
+            </ul>
+            {{/hasErrors}}
 
-    Saved polls:
+            <h3>Question:</h3>
+            <input id="" name="title" type="text" value="{{pollTitle}}"/>
+
+            <h3>Answers:</h3>
+            {{#pollAnswers}}
+            <input id="" name="answers" type="text" value="{{.}}"/><br />
+            {{/pollAnswers}}
+
+            <input class="ask" type="submit" value="Ask" />
+            <br />
+            <input type="button" class="save_poll" value="Save &darr;" />
+        </form>
+    </center>
+
+    <h2>Saved polls:</h2>
     <ul class="saved_polls">loading...</ul>
 
-    Title:<br />
-    <input id="" name="title" type="text" value="{{pollTitle}}"/>
-    <br />
-
-    Answers:<br />
-    {{#pollAnswers}}
-    <input id="" name="answers[]" type="text" value="{{.}}"/><br />
-    {{/pollAnswers}}
-
-    <input type="submit" value="Ask" />
-</form>
-<a class="save_poll" href="#" />Save this poll for later</a>
+</div>

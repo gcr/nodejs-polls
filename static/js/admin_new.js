@@ -7,12 +7,11 @@ $(document).ready(function() {
     function usePoll(poll) {
       // Callback for clicking the "Use poll" link on a poll in the poll list.
       $("input[name='title']").attr('value', poll.title);
-      var answers = $("input[name='answers[]']");
+      var answers = $("input[name='answers']");
       answers.attr('value', "");
       for (var i=0,l=poll.answers.length; i<l; i++) {
         answers[i].value = poll.answers[i];
       }
-      console.log(poll);
     }
 
     var deleting = false;
@@ -38,13 +37,10 @@ $(document).ready(function() {
 
     function renderPoll(poll) {
       // Draw a poll and return a jQuery object.
-      console.log(poll);
       return $("<li class='poll_question'>").append(
-        $("<a>", {href: "#"}).text("Use").click(function() { usePoll(poll); })
+        $("<input>", {type: "button"}).addClass('delete').val("Delete").click(function() {deletePoll(this); })
       ).append(
-        $("<a>", {href: "#"}).text("Delete").click(function() {deletePoll(this); })
-      ).append(
-        $("<div>").text(poll.title + " (" + poll.answers.join(", ") + ")")
+        $("<a>", {href: "#"}).text(poll.title + " (" + poll.answers.join(", ") + ")").click(function() { usePoll(poll); })
       );
     }
 
@@ -61,15 +57,17 @@ $(document).ready(function() {
     $(".save_poll").click(function() {
         var title=$("input[name='title']").attr('value'),
             answers=[];
-        $("input[name='answers[]']").each(function() {
+        $("input[name='answers']").each(function() {
             if (this.value.length) {
               answers.push(this.value);
             }
           });
-        savedPollsJq.append($("<span>").text("Saving..."));
+        var savingJq = $("<span>").text("Saving...");
+        savedPollsJq.append(savingJq);
         polling.list.save(title, answers, function(result) {
             if (result!=="success") {
               alert(result);
+              savingJq.remove();
             } else {
               reloadPolls();
             }

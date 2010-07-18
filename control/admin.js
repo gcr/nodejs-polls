@@ -23,7 +23,6 @@ function newPoll(poll, req, res, errors) {
 
   return templates.render('admin_new', {
     title: "Make a new poll",
-    student: false,
     errors: errors,
     pollTitle: title,
     pollAnswers: answers,
@@ -73,7 +72,6 @@ function waitPoll(poll, req, res) {
   }
   return templates.render('admin_wait', {
     title: poll.title + " -- Waiting for votes",
-    student: false,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     numVotes: numVotes,
@@ -108,7 +106,6 @@ function results(poll, req, res) {
   }
   return templates.render('admin_results', {
     title: poll.title + " -- Results",
-    student: false,
     //           !! casts to boolean
     clientVoted: !!poll.myVote(uid.uniqId(req, res)),
     pollTitle: poll.title,
