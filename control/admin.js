@@ -71,12 +71,16 @@ function waitPoll(poll, req, res) {
     numVotes: poll.numVotes(),
     plural: (poll.numVotes()==1?"":"s"),
     pollTitle: poll.title,
-    answers: poll.answers.map(function(q) {
-    return {
-      answer: q,
-      url: "/vote?choice=" + escape(q),
-      isMyVote: poll.myVote(uid.uniqId(req, res)) == q};
-    }),
+    answers: poll.tally().map(function(x){
+        var answer=x[0], votes=x[1];
+        return {
+          answer: answer,
+          percent: poll.numVotes()===0?"0%":((votes/poll.numVotes()*100)+"%"),
+          votes: votes,
+          plural: votes===1?"":"s",
+          isMyVote: poll.myVote(uid.uniqId(req, res))==answer
+        };
+      }),
     scripts: ['/js/admin_wait.js']
   }, req, res);
 }
