@@ -4,7 +4,6 @@
         <form action="/admin/set" method="get">
             {{%IMPLICIT-ITERATOR}}
             {{#hasErrors}}
-            Uh oh! There were errors with that poll.
             <ul>
                 {{#errors}}
                 <li>{{.}}</li>
