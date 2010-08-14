@@ -1,11 +1,6 @@
 <h1>Results: {{pollTitle}}</h1>
 
 <div class="hcenter">
-<center>
-        <div class="student_notice">Students: Please visit
-            <div class="url">http://polls.sneakygcr.net</div>
-        </div>
-</center>
 <ul class="results">
 {{#answers}}
     <li>
@@ -19,7 +14,13 @@ vote{{plural}}: {{answer}}</div>
 </ul>
 
 Total: <span class="numvotes">{{numVotes}}</span> vote{{plural}}
-
+<br />
+<br />
+<center>
+        <div class="student_notice">Students: Please visit
+            <div class="url">http://polls.sneakygcr.net</div>
+        </div>
+</center>
 <br />
 <a href="/admin/new">Make a new poll</a>
 </div>

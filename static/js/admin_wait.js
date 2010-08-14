@@ -16,7 +16,6 @@ $(document).ready(function() {
     },
 
     function openPoll(poll) {
-      console.log("HELLO");
       $(".poll_wait").text("").append(
         $("<span>").text("We have ")
       ).append(
