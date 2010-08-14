@@ -57,12 +57,6 @@ routes.addRoutes(
     'vote': activePoll.curryGet(student.vote),
     'results': activePoll.curryGet(student.pollResults),
 
-    'debug': function(req, res) {
-      sys.log("Dumping poll state at remote's request");
-      sys.puts(sys.inspect(activePoll.get()));
-      res.writeHead(500); res.end();
-    },
-
     'admin': {
       '': activePoll.curryGet(admin.pickOne),
       'new': activePoll.curryGet(admin.newPoll),
