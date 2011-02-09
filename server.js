@@ -85,7 +85,7 @@ routes.addRoutes(
       curry(pollListCtl.get, plist),
       ['del'],
       curry(pollListCtl.del, plist),
-      ['save', 'title', 'answers'],
+      ['save', 'title', 'answers[]'],
       curry(pollListCtl.add, plist),
       [],
       curry(pollListCtl.get, plist)
