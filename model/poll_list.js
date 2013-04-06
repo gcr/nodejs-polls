@@ -8,8 +8,12 @@ function PollList(filename) {
   // a Title and a list of answers.
   this.filename = filename;
   //this.polls = [];
-  var buffer=fs.readFileSync(filename);
-  this.polls = JSON.parse(buffer.toString()).polls;
+  try {
+    var buffer=fs.readFileSync(filename);
+    this.polls = JSON.parse(buffer.toString()).polls;
+  } catch (err) {
+    this.polls = [];
+  }
 }
 
 PollList.prototype.get = function(n) {
